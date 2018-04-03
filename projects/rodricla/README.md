@@ -1,2 +1,1 @@
-Claudia Rodriguez-Schroeder
-rodricla
+This is my assignment-1 submission!
