@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-//REFACORED CASES:
+//REFACTORED CASES:
 //SMITHY CARD
 int smithy_case(int currentPlayer, struct gameState* state, int handPos)
 {
