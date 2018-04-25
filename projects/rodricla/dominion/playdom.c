@@ -5,9 +5,9 @@
 
 int main (int argc, char** argv) {
   struct gameState G;
-  int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
-           sea_hag, tribute, smithy};
-
+  //int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};
+  //int k[10] = {adventurer, smithy, feast, embargo, village, baron, village, minion, mine, cutpurse};
+  int k[10] = {adventurer, feast, baron, village, embargo, mine, cutpurse, sea_hag, tribute, smithy};
   printf ("Starting game.\n");
 
   initializeGame(2, k, atoi(argv[1]), &G);
@@ -19,6 +19,9 @@ int main (int argc, char** argv) {
 
   int numSmithies = 0;
   int numAdventurers = 0;
+  //STUFF I'M ADDING TO TEST
+  int numFeasts=0;
+  
 
   while (!isGameOver(&G)) {
     money = 0;

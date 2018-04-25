@@ -127,5 +127,11 @@ int scoreFor(int player, struct gameState *state);
 int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 /* Set array position of each player who won (remember ties!) to
    1, others to 0 */
+//REFACTORED CASEs
+int smithy_case(int currentPlayer, struct gameState* state, int handPos);
+int adventurer_case(int currentPlayer, struct gameState* state, int cardDrawn, int drawntreasure, int* temphand, int z);
+int baron_case(int currentPlayer, struct gameState* state, int choice1);
+int council_case(int currentPlayer, struct gameState* state, int handPos);
+int feast_case(int currentPlayer, struct gameState* state, int* temphand, int choice1);
 
 #endif

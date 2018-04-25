@@ -1,0 +1,82 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <assert.h>
+        -:    8:int test(int input[10], int output[10]);
+        -:    9:int check_card(int card);
+function main called 1 returned 100% blocks executed 100%
+        -:   10:int main(int argc, char *argv[]) 
+        -:   11:{
+        -:   12:	
+        1:   13:	printf("+++++STARTING unit test 2: Testing kingdomCards() function+++++\n\n");
+        -:   14:
+        1:   15:	printf("---GOOD INPUT: TEST ONE: adding adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall to kingdom cards----\n");
+        1:   16:	int setUs[]={adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};
+        1:   17:	int *kc=kingdomCards(adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy);
+        1:   18:	test(setUs, kc);
+        -:   19:	
+        1:   20:	printf("---BAD INPUT: TEST ONE: adding adventurer, copper, feast, gardens, mine, remodel, smithy, village, baron, great_hall to kingdom cards----\n");
+        1:   21:	int setUs2[]={adventurer, copper, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy};
+        1:   22:	int *kc2=kingdomCards(adventurer, copper, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy);
+        1:   23:	test(setUs2, kc2);
+        -:   24:	
+        1:   25:	printf("\n\n+++++FINISHED unit test 2: Testing kingdomCards() function+++++\n\n");
+        1:   26:}
+function test called 2 returned 100% blocks executed 73%
+        -:   27:int test(int setUs[10], int kc[10])
+        -:   28:{
+        2:   29:	printf("Checking that each kingdom card corresponds to the intended card\n");
+        2:   30:	int i=0;
+       44:   31:	for (i=0; i < 10; i++)
+branch  0 taken 91%
+branch  1 taken 9%
+        -:   32:	{
+        -:   33:		
+       20:   34:		if (kc[i]==setUs[i])
+branch  0 taken 100%
+branch  1 taken 0%
+        -:   35:		{
+       20:   36:			printf("SUCCESS: Card #%i with enum %i successfully set to kingdom cards array\n", i, kc[i]);
+       20:   37:			if (check_card(kc[i])==-1)
+branch  0 taken 5%
+branch  1 taken 95%
+        -:   38:			{
+        1:   39:				printf("FAILURE: Function allowed a non-kingdom card to be added\n");
+        1:   40:			}
+       20:   41:		}
+       20:   42:		if ((kc[i]!=setUs[i])&&(check_card(setUs[i])==-1))
+branch  0 taken 0%
+branch  1 taken 100%
+branch  2 never executed
+branch  3 never executed
+        -:   43:		{
+    #####:   44:			if (check_card(kc[i])==-1)
+branch  0 never executed
+branch  1 never executed
+        -:   45:			{
+    #####:   46:				printf("SUCCESS: Function did NOT allow a non-kingdom card to be added\n");
+    #####:   47:			}
+    #####:   48:		}
+       20:   49:	}
+        2:   50:	return 0;
+        -:   51:	
+        -:   52:}
+function check_card called 20 returned 100% blocks executed 100%
+        -:   53:int check_card(int card)
+        -:   54:{
+       20:   55:	if (card<adventurer)
+branch  0 taken 5%
+branch  1 taken 95%
+        -:   56:	{
+        1:   57:		return -1;
+        -:   58:	}
+       19:   59:	return 0;
+       20:   60:}
