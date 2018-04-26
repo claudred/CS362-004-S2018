@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
 	test(setUs2, kc2);
 	
 	printf("\n\n+++++FINISHED unit test 2: Testing kingdomCards() function+++++\n\n");
+	return 0;
+	
 }
 int test(int setUs[10], int kc[10])
 {

@@ -12,15 +12,19 @@
         -:    7:#include <assert.h>
         -:    8:#include "test_helpers.h"
         -:    9:
-function main called 1 returned 100% blocks executed 59%
-        -:   10:int main(int argc, char *argv[]) 
+function main called 1 returned 100% blocks executed 72%
+        1:   10:int main(int argc, char *argv[]) 
         -:   11:{
         -:   12:
         -:   13:	//an introduction
         1:   14:	printf("----Welcome to cardtest4.c-----\n");
+call    0 returned 100%
         1:   15:	printf("----This file facilitates unit tests for the Baron Card---\n");
+call    0 returned 100%
         1:   16:	printf("----Baron is an Action card from the Intigue Set----\n");
+call    0 returned 100%
         1:   17:	printf("----To run, we need to have a current player, a game state, and a parameter called 'choice1' which tells us whether or not to 'discard' the estate card, which is enumerated in the CARD enum by '1'.\n");
+call    0 returned 100%
         -:   18:	//end introduction
         -:   19:	//THING TO NOTE:
         -:   20:		//1. If estate exists, it is in testBaron->hand[rp][0...n] where n is the size of the hand i.e. testBaron->handCount[rp]
@@ -37,6 +41,7 @@ function main called 1 returned 100% blocks executed 59%
         1:   31:	int kingdomCards[10]={adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron};
         1:   32:	int randomSeed=69;
         1:   33:	struct gameState *testBaron=newGame();
+call    0 returned 100%
         1:   34:	int card=baron;
         1:   35:	int choice1=0;
         1:   36:	int choice2=0;
@@ -45,176 +50,215 @@ function main called 1 returned 100% blocks executed 59%
         1:   39:	int bonus=0;
         1:   40:	int rp=0;
         1:   41:	initializeGame(numPlayers, kingdomCards, randomSeed, testBaron);
+call    0 returned 100%
         1:   42:	rp=whoseTurn(testBaron);
+call    0 returned 100%
         1:   43:	testBaron->hand[rp][handPos]=baron;
         1:   44:	int rpHandCountBefore=testBaron->handCount[rp];
         1:   45:	int rpHandCountAfter=0;
         -:   46:	int i;
-       12:   47:	for (i=0; i <rpHandCountBefore; i++)
+        6:   47:	for (i=0; i <rpHandCountBefore; i++)
 branch  0 taken 83%
-branch  1 taken 17%
+branch  1 taken 17% (fallthrough)
         -:   48:	{
         5:   49:		printf("Before card %i is %i\n", i, testBaron->hand[rp][i]);
-        5:   50:	}
+call    0 returned 100%
+        -:   50:	}
         1:   51:	int numCoinsBefore=testBaron->coins;
         1:   52:	int numCoinsAfter=0;
         1:   53:	int discardPileBefore=testBaron->discardCount[rp];
         1:   54:	int discardPileAfter=0;
         1:   55:	printf("--TESTING THAT: 1. Number of buys before and after should increase by 1----\n");
+call    0 returned 100%
         1:   56:	int prevNumBuys=testBaron->numBuys;
         1:   57:	int expNumBuys=prevNumBuys+1;
         1:   58:	int aftNumBuys=0;
         1:   59:	cardEffect(card, choice1, choice2, choice3, testBaron, handPos, &bonus);
+call    0 returned 100%
         1:   60:	aftNumBuys=testBaron->numBuys;
         1:   61:	printf("Number of Buys Before: %i\n", prevNumBuys);
+call    0 returned 100%
         1:   62:	printf("Number of Buys After: %i\n", aftNumBuys);
+call    0 returned 100%
         1:   63:	printf("Expected Num Buys After: %i\n", expNumBuys);
+call    0 returned 100%
         1:   64:	if (expNumBuys!=aftNumBuys)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:   65:	{
         1:   66:		printf("FAILURE: expected and actual number of buys don't match\n");
-        1:   67:	}
+call    0 returned 100%
+        -:   67:	}
         -:   68:	else 
         -:   69:	{
     #####:   70:		printf("SUCCESS: expected and actual number of buys match\n");		
+call    0 never executed
         -:   71:	}
         1:   72:	printf("TESTING THAT: 2.That baron works and does NOT discard estate when choice1 is 0\n");
+call    0 returned 100%
         1:   73:	rpHandCountAfter=testBaron->handCount[rp];
         1:   74:	if (rpHandCountAfter==rpHandCountBefore)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:   75:	{
         1:   76:		printf("SUCCESS: handcount is the same before and after\n");
-       12:   77:		for (i=0; i <rpHandCountAfter; i++)
+call    0 returned 100%
+        6:   77:		for (i=0; i <rpHandCountAfter; i++)
 branch  0 taken 83%
 branch  1 taken 17%
         -:   78:		{
         5:   79:			printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-        5:   80:		}
+call    0 returned 100%
+        -:   80:		}
         -:   81:
-        1:   82:	}
+        -:   82:	}
     #####:   83:	else if (rpHandCountAfter!=rpHandCountBefore)
 branch  0 never executed
 branch  1 never executed
         -:   84:	{
     #####:   85:		printf("FAILURE: handcount is NOT the same before and after\n");
+call    0 never executed
     #####:   86:		for (i=0; i <rpHandCountAfter; i++)
 branch  0 never executed
 branch  1 never executed
         -:   87:		{
     #####:   88:			printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-    #####:   89:		}
+call    0 never executed
+        -:   89:		}
         -:   90:
-    #####:   91:	}
+        -:   91:	}
         1:   92:	printf("TESTING THAT: 3.That baron works and DOES discard estate when choice1 is 1\n");
+call    0 returned 100%
         1:   93:	choice1=1;
         1:   94:	discardPileBefore=testBaron->discardCount[rp];
         1:   95:	cardEffect(card, choice1, choice2, choice3, testBaron, handPos, &bonus);
+call    0 returned 100%
         1:   96:	rpHandCountAfter=testBaron->handCount[rp];
         1:   97:	if (rpHandCountAfter!=rpHandCountBefore)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:   98:	{
         1:   99:		printf("SUCCESS: handcount is different efore and after\n");
-       10:  100:		for (i=0; i <rpHandCountAfter; i++)
+call    0 returned 100%
+        5:  100:		for (i=0; i <rpHandCountAfter; i++)
 branch  0 taken 80%
-branch  1 taken 20%
+branch  1 taken 20% (fallthrough)
         -:  101:		{
         4:  102:			printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-        4:  103:		}
+call    0 returned 100%
+        -:  103:		}
         1:  104:		printf("TESTING THAT: 3.1. If estate is found, that coins have 4 added to them\n");
+call    0 returned 100%
         1:  105:		numCoinsAfter=testBaron->coins;
         1:  106:		if (numCoinsAfter==numCoinsBefore)
-branch  0 taken 0%
+branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -:  107:		{
     #####:  108:			printf("FAILURE: number of coins unchanged\n");
-    #####:  109:		}
+call    0 never executed
+        -:  109:		}
         1:  110:		else if (numCoinsAfter==numCoinsBefore+4)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:  111:		{
         1:  112:			printf("SUCCESS: number of coins incremented by 4\n");
-        1:  113:		}
+call    0 returned 100%
+        -:  113:		}
         -:  114:		else
         -:  115:		{
     #####:  116:			printf("FAILURE: number of coins differs but not by correct fator\n");
+call    0 never executed
         -:  117:		}
         -:  118:
-        1:  119:	}
+        -:  119:	}
     #####:  120:	else if (rpHandCountAfter==rpHandCountBefore)
 branch  0 never executed
 branch  1 never executed
         -:  121:	{
     #####:  122:		printf("FAILURE: handcount is NOT different before and after\n");
+call    0 never executed
     #####:  123:		for (i=0; i <rpHandCountAfter; i++)
 branch  0 never executed
 branch  1 never executed
         -:  124:		{
     #####:  125:			printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-    #####:  126:		}
+call    0 never executed
+        -:  126:		}
         -:  127:	
-    #####:  128:	}
+        -:  128:	}
         1:  129:	printf("TESTING THAT: 3.2 That discard pile has item added and that the discard count has gone up\n");
+call    0 returned 100%
         1:  130:	discardPileAfter=testBaron->discardCount[rp];
         1:  131:	if (discardPileAfter==discardPileBefore)
-branch  0 taken 0%
+branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -:  132:	{
     #####:  133:		printf("FAILURE: discard count unchanged\n");
-    #####:  134:	}
+call    0 never executed
+        -:  134:	}
         1:  135:	else if (discardPileAfter==discardPileBefore+1)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:  136:	{
         1:  137:		printf("SUCCESS: discard count incremented by one\n");
-        1:  138:	}
+call    0 returned 100%
+        -:  138:	}
         -:  139:	else 
         -:  140:	{
     #####:  141:		printf("FAILURE discard counts differ but by incorrect factor: before %i, after %i\n", discardPileBefore, discardPileAfter);
+call    0 never executed
         -:  142:	}
         1:  143:	printf("TESTING THAT: 4. That the state doesn't change if estate does not exist to be discarded.\n");
+call    0 returned 100%
         1:  144:	printf("SETTING ALL CARDS TO CURSE CARDS\n");
+call    0 returned 100%
         1:  145:	rp=whoseTurn(testBaron);
+call    0 returned 100%
         1:  146:	rpHandCountBefore=testBaron->handCount[rp];
-       10:  147:	for (i=0; i <rpHandCountBefore; i++)
+        5:  147:	for (i=0; i <rpHandCountBefore; i++)
 branch  0 taken 80%
-branch  1 taken 20%
+branch  1 taken 20% (fallthrough)
         -:  148:	{
         4:  149:		testBaron->hand[rp][i]=0;
-        4:  150:	}
+        -:  150:	}
         1:  151:	cardEffect(card, choice1, choice2, choice3, testBaron, handPos, &bonus);
+call    0 returned 100%
         1:  152:	rpHandCountAfter=testBaron->handCount[rp];
         -:  153:	
         1:  154:	rpHandCountAfter=testBaron->handCount[rp];
         1:  155:	if (rpHandCountAfter==rpHandCountBefore)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:  156:	{
         1:  157:		printf("SUCCESS: handcount is the same before and after\n");
-       10:  158:		for (i=0; i <rpHandCountAfter; i++)
+call    0 returned 100%
+        5:  158:		for (i=0; i <rpHandCountAfter; i++)
 branch  0 taken 80%
 branch  1 taken 20%
         -:  159:		{
         4:  160:			printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-        4:  161:		}
+call    0 returned 100%
+        -:  161:		}
         -:  162:
-        1:  163:		}
+        -:  163:		}
     #####:  164:		else if (rpHandCountAfter!=rpHandCountBefore)
 branch  0 never executed
 branch  1 never executed
         -:  165:		{
     #####:  166:			printf("FAILURE: handcount is NOT the same before and after\n");
+call    0 never executed
     #####:  167:			for (i=0; i <rpHandCountAfter; i++)
 branch  0 never executed
 branch  1 never executed
         -:  168:			{
     #####:  169:				printf("After card %i is %i\n", i, testBaron->hand[rp][i]);
-    #####:  170:			}
+call    0 never executed
+        -:  170:			}
         -:  171:
-    #####:  172:		}
-        -:  173:
-        -:  174:	
+        -:  172:		}
+        1:  173:	printf("---All tests finished---\n\n");
+call    0 returned 100%
+        1:  174:	return 0;
         -:  175:	
-        1:  176:}
+        -:  176:	
+        -:  177:}

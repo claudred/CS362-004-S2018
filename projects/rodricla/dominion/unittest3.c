@@ -105,8 +105,7 @@ int main(int argc, char *argv[])
 	test_supplyCounts(testGame4->numPlayers, testGame4);
 	printf("----FINISHED TEST CASE 4----\n\n\n");
 	
-	
-	
+	return 0;
 	
 	
 }

@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	struct gameState* testMe=newGame();
 	test(testMe);
 	printf("\n\n+++++FINISHED unit test 1: Testing newGame() function+++++\n\n");
+	return 0;
 }
 int test(struct gameState* testMe)
 {

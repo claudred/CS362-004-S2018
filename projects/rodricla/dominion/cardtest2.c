@@ -16,26 +16,29 @@ int main(int argc, char *argv[])
 	printf("----TEST 1: If there is treasure in the players deck it should draw it-----\n");
 	
 	struct gameState *testAdventurer=newGame();
-	
+	//int kc_ac[10]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10};	
 	int* kc_ac=kingdomCards(adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron);
 	int numPlayers=2;
-	int randomSeed=random();
+	int randomSeed=1234;
+
 	int card=adventurer;
 	int choice1=0;
 	int choice2=0; 
 	int choice3=0;
 	int handPos=0;
 	int bonus=0;
+	
 	//relevant player we're testing.
 	int rp=-1;	
 	initializeGame(numPlayers, kc_ac, randomSeed, testAdventurer);
+	
+	rp=whoseTurn(testAdventurer);
 	testAdventurer->hand[rp][handPos]=adventurer;
 	printSupplyCount(testAdventurer);
 	
 	struct gameState *save=newGame();
 	*save=*testAdventurer;
-	rp=whoseTurn(testAdventurer);
-	printPlayerDeck(rp, testAdventurer);
+//	printPlayerDeck(rp, testAdventurer);
 	printf("PLAYER: %i\n", rp);
 	printf("At this point, we know that the player should have only treasure in the deck; so we expect that the hand count before and after should differ by two counts\n");
 	printf("Player's hand count before: %i\n", testAdventurer->handCount[rp]);
@@ -103,17 +106,6 @@ int main(int argc, char *argv[])
 	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
 	printPlayerDeck(rp, testAdventurer);*/
 	printf("\n\n\n----FINISHED ALL TESTS--\n");
+	return 0;
 
 }
-
-/*
-
-//ADVENTURE CARD
-
-*/
-
-/**************
-
-		
-
-**************/

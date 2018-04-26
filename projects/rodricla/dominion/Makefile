@@ -34,42 +34,42 @@ player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 	
 unittest1: unittest1.c dominion.c rngs.c
-	gcc unittest1.c dominion.c rngs.c test_helpers.c -o unittest1
+	gcc unittest1.c dominion.c rngs.c test_helpers.c -o unittest1 $(CFLAGS)
 	gcc unittest1.c dominion.c rngs.c test_helpers.c -o unittest1 -coverage -fpic -lm
 	./unittest1
 	
 unittest2: unittest2.c dominion.c rngs.c
-	gcc unittest2.c dominion.c rngs.c test_helpers.c -o unittest2
+	gcc unittest2.c dominion.c rngs.c test_helpers.c -o unittest2 $(CFLAGS)
 	gcc unittest2.c dominion.c rngs.c test_helpers.c -o unittest2 -coverage -fpic -lm
 	./unittest2
 
 unittest3: unittest3.c dominion.c rngs.c
-	gcc unittest3.c dominion.c rngs.c test_helpers.c -o unittest3
+	gcc unittest3.c dominion.c rngs.c test_helpers.c -o unittest3 $(CFLAGS)
 	gcc unittest3.c dominion.c rngs.c test_helpers.c -o unittest3 -coverage -fpic -lm
 	./unittest3
 	
 unittest4: unittest4.c dominion.c rngs.c		
-	gcc unittest4.c dominion.c rngs.c test_helpers.c -o unittest4
+	gcc unittest4.c dominion.c rngs.c test_helpers.c -o unittest4 $(CFLAGS)
 	gcc unittest4.c dominion.c rngs.c test_helpers.c -o unittest4 -coverage -fpic -lm
 	./unittest4
 	
 cardtest1: cardtest1.c dominion.c rngs.c
-	gcc cardtest1.c dominion.c rngs.c test_helpers.c -o cardtest1
+	gcc cardtest1.c dominion.c rngs.c test_helpers.c -o cardtest1 $(CFLAGS)
 	gcc cardtest1.c dominion.c rngs.c test_helpers.c -o cardtest1 -coverage -fpic -lm
 	./cardtest1
 		
 cardtest2: cardtest2.c dominion.c rngs.c
-	gcc cardtest2.c dominion.c rngs.c test_helpers.c -o cardtest2
+	gcc cardtest2.c dominion.c rngs.c test_helpers.c -o cardtest2 $(CFLAGS)
 	gcc cardtest2.c dominion.c rngs.c test_helpers.c -o cardtest2 -coverage -fpic -lm
 	./cardtest2
 
 cardtest3: cardtest3.c dominion.c rngs.c
-	gcc cardtest3.c dominion.c rngs.c test_helpers.c -o cardtest3
+	gcc cardtest3.c dominion.c rngs.c test_helpers.c -o cardtest3 $(CFLAGS)
 	gcc cardtest3.c dominion.c rngs.c test_helpers.c -o cardtest3 -coverage -fpic -lm
 	./cardtest3
 		
-cardtest4: cardtest4.c dominion.c rngs.c		
-	gcc cardtest4.c dominion.c rngs.c test_helpers.c -o cardtest4
+cardtest4: cardtest4.c dominion.c rngs.c 		
+	gcc cardtest4.c dominion.c rngs.c test_helpers.c -o cardtest4 $(CFLAGS)
 	gcc cardtest4.c dominion.c rngs.c test_helpers.c -o cardtest4 -coverage -fpic -lm
 	./cardtest4
 

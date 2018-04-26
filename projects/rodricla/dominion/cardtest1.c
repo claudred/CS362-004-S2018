@@ -112,5 +112,5 @@ int main(int argc, char *argv[])
 	printf("\n\n\n----FINISHED ALL TESTS--\n");
 	
 	
-
+	return 0;
 }

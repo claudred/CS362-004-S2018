@@ -170,7 +170,8 @@ int main(int argc, char *argv[])
 			}
 
 		}
-
+	printf("---All tests finished---\n\n");
+	return 0;
 	
 	
 }

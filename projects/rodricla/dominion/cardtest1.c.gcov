@@ -12,19 +12,27 @@
         -:    7:#include <assert.h>
         -:    8:#include "test_helpers.h"
         -:    9:
-function main called 1 returned 100% blocks executed 82%
-        -:   10:int main(int argc, char *argv[]) 
+function main called 1 returned 100% blocks executed 94%
+        1:   10:int main(int argc, char *argv[]) 
         -:   11:{
         -:   12:	
         -:   13:	//an introduction
         1:   14:	printf("----STARTING TESTS----\n\n\n");
+call    0 returned 100%
         1:   15:	printf("----Welcome to cardtest1.c, home of Card Test 1----\n");
+call    0 returned 100%
         1:   16:	printf("----This file facilitates unit tests for the Smithy Card ----\n");
+call    0 returned 100%
         1:   17:	printf("-----Smithy is an Action card from the Base Set----\n");
+call    0 returned 100%
         1:   18:	printf("-----Smithy's purpose is to increase the handside by drawing three cards----\n");
+call    0 returned 100%
         1:   19:	printf("-----Smithy is a terminal card, meaning that it provides no +Action---\n");
+call    0 returned 100%
         1:   20:	printf("Tese test do two things:\n1. Test state of hand count\n");
+call    0 returned 100%
         1:   21:	printf("2. Test state of played card pile\n");
+call    0 returned 100%
         -:   22:	
         1:   23:	int card=smithy;
         1:   24:	int numPlayers=2;
@@ -32,18 +40,26 @@ function main called 1 returned 100% blocks executed 82%
         1:   26:	int handpos=0;
         1:   27:	int choice1, choice2, choice3, bonus = 0;
         1:   28:	struct gameState *smithyTest=newGame();
+call    0 returned 100%
         1:   29:	struct gameState *save=newGame();
+call    0 returned 100%
         1:   30:	int *smithyTestKC=kingdomCards(adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy);
+call    0 returned 100%
         1:   31:	initializeGame(numPlayers, smithyTestKC, seed, smithyTest);
+call    0 returned 100%
         1:   32:	*save=*smithyTest;
         1:   33:	printf("TEST CASE PARAMETERS: %i players, ", smithyTest->numPlayers);
+call    0 returned 100%
         -:   34:	//relevant player=rp
         1:   35:	int rp=smithyTest->whoseTurn;
         1:   36:	printf("testing with player %i.\n", rp+1);
+call    0 returned 100%
         -:   37:	//placing Smithy in players hand
         1:   38:	printf("Placing Smithy (enum %i) in player %i's hand at position %i\n",smithy, rp, handpos);
+call    0 returned 100%
         1:   39:	smithyTest->hand[rp][handpos]=smithy;
         1:   40:	printPlayerHand(rp, smithyTest);
+call    0 returned 100%
         -:   41:	
         -:   42:	//hcb=hand count before
         1:   43:	int hcb=smithyTest->handCount[rp];
@@ -65,68 +81,90 @@ function main called 1 returned 100% blocks executed 82%
         -:   59:	
         1:   60:	int return_val=0;
         1:   61:	printf("Player %i's hand count before cardEffect is called with Smithy is: %i\n", rp+1, hcb);
+call    0 returned 100%
         1:   62:	printf("Here is the deck state before\n");
+call    0 returned 100%
         1:   63:	printPlayerDeck(rp, smithyTest);
+call    0 returned 100%
         1:   64:	printf("The games played card count before is %i\n", pccb);
+call    0 returned 100%
         1:   65:	printf("Games last played card is %i\n", pcsb);
+call    0 returned 100%
         -:   66:	
         1:   67:	printf("--TEST CASE 1: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n", card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+call    0 returned 100%
         1:   68:	return_val=cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+call    0 returned 100%
         1:   69:	actHCA=smithyTest->handCount[rp];
         1:   70:	printf("--STEP 1: Checking hand counts--\n");
+call    0 returned 100%
         1:   71:	if (actHCA==exHCA)
-branch  0 taken 0%
+branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -:   72:	{
     #####:   73:		printf("SUCCESS: new handcount is %i\n", smithyTest->handCount[rp]);
-    #####:   74:	}
+call    0 never executed
+        -:   74:	}
         -:   75:	else
         -:   76:	{
         1:   77:		printf("FAILURE: handcount has %i cards instead of required %i\n", smithyTest->handCount[rp], save->handCount[rp]+2);
+call    0 returned 100%
         -:   78:	}
         1:   79:	printPlayerHand(rp, smithyTest);
+call    0 returned 100%
         1:   80:	printf("--STEP 2: Checking that expected played card count matches actual played card count--\n");
+call    0 returned 100%
         1:   81:	if (exPCCA!=smithyTest->playedCardCount)
-branch  0 taken 0%
+branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
         -:   82:	{
     #####:   83:		printf("FAILURE: Expeted %i, got %i\n", exPCCA, smithyTest->playedCardCount);
-    #####:   84:	}
+call    0 never executed
+        -:   84:	}
         1:   85:	else if (exPCCA==smithyTest->playedCardCount)
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:   86:	{
         1:   87:		printf("SUCCESS: Expected %i, got %i\n", exPCCA, smithyTest->playedCardCount);
-        1:   88:	}
+call    0 returned 100%
+        -:   88:	}
         1:   89:	printf("--CHECKING DISCARD FUNCTION--\n");
+call    0 returned 100%
         -:   90:	
         1:   91:	printf("Checking that expected card was removed to 'played cards' from the deck for 5 test cases of handPos being 0 through %i\n", save->handCount[rp]);
+call    0 returned 100%
         -:   92:	int i;
         1:   93:	int firstHC=save->handCount[rp];
         1:   94:	struct gameState *saveTwo=newGame();
+call    0 returned 100%
         1:   95:	*saveTwo=*smithyTest;
-       12:   96:	for (i=0; i < firstHC; i++)
+        6:   96:	for (i=0; i < firstHC; i++)
 branch  0 taken 83%
-branch  1 taken 17%
+branch  1 taken 17% (fallthrough)
         -:   97:	{
         5:   98:		printf("--TEST CASE %i for handpost %i--\n", i+2, i);
+call    0 returned 100%
         5:   99:		handpos=i;
         5:  100:		return_val=cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+call    0 returned 100%
         5:  101:		if (smithyTest->playedCards[smithyTest->playedCardCount-1]==save->hand[rp][handpos])
-branch  0 taken 100%
+branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
         -:  102:		{
         5:  103:			printf("SUCCESS: last played card matches saved hand in position %i: %i==%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
-        5:  104:		}
+call    0 returned 100%
+        -:  104:		}
         -:  105:		else
         -:  106:		{
     #####:  107:			printf("FAILURE: last played card does NOT match saved hand in position %i: %i!=%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
+call    0 never executed
         -:  108:		}
         5:  109:		*smithyTest=*save;
-        5:  110:	}
+        -:  110:	}
         1:  111:	*smithyTest=*saveTwo;
         1:  112:	printf("\n\n\n----FINISHED ALL TESTS--\n");
+call    0 returned 100%
         -:  113:	
         -:  114:	
-        -:  115:
-        1:  116:}
+        1:  115:	return 0;
+        -:  116:}

@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
 	testBuys(saveState, council_roomTest, 1);
 
 	printf("\n\n\n----FINISHED ALL TESTS--\n");
-	
+	return 0;	
 }
 void testBuys(struct gameState *prev, struct gameState *after, int incBy)
 {

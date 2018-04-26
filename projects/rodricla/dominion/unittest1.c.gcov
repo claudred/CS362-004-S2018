@@ -12,21 +12,28 @@
         -:    7:#include <assert.h>
         -:    8:int test(struct gameState* testMe);
 function main called 1 returned 100% blocks executed 100%
-        -:    9:int main(int argc, char *argv[]) 
+        1:    9:int main(int argc, char *argv[]) 
         -:   10:{
         1:   11:	printf("+++++STARTING unit test 1: Testing newGame() function+++++\n\n");
+call    0 returned 100%
         1:   12:	struct gameState* testMe=newGame();
+call    0 returned 100%
         1:   13:	test(testMe);
+call    0 returned 100%
         1:   14:	printf("\n\n+++++FINISHED unit test 1: Testing newGame() function+++++\n\n");
-        1:   15:}
+call    0 returned 100%
+        1:   15:	return 0;
+        -:   16:}
 function test called 1 returned 100% blocks executed 100%
-        -:   16:int test(struct gameState* testMe)
-        -:   17:{
-        -:   18:	//assert that dereferences piece of the gameState actually works. 
-        -:   19:	if (sizeof(*testMe)==sizeof(struct gameState))
-        1:   20:		printf("1. newGame() correctly allocated space\n");
-        -:   21:	else
-        -:   22:		printf("newGame() did not correctly allocate space\n");
-        1:   23:	printf("newGame() unit test passed\n");
-        1:   24:	return 0;
-        -:   25:}
+        1:   17:int test(struct gameState* testMe)
+        -:   18:{
+        -:   19:	//assert that dereferences piece of the gameState actually works. 
+        -:   20:	if (sizeof(*testMe)==sizeof(struct gameState))
+        1:   21:		printf("1. newGame() correctly allocated space\n");
+call    0 returned 100%
+        -:   22:	else
+        -:   23:		printf("newGame() did not correctly allocate space\n");
+        1:   24:	printf("newGame() unit test passed\n");
+call    0 returned 100%
+        1:   25:	return 0;
+        -:   26:}
