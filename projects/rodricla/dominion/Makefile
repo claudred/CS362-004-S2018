@@ -28,7 +28,15 @@ runtests: testDrawCard
 	./testDrawCard &> unittestresult.out
 	gcov dominion.c >> unittestresult.out
 	cat dominion.c.gcov >> unittestresult.out
+#START MY ADDITIONS: FIRST EXAMPLE OF A SMALL TEST 
+small_test: small_test.c dominion.o rngs.o
+	gcc -o small_test -g small_test.c dominion.o rngs.o  $(CFLAGS)
+small_test.out: small_test
+	./small_test >> small_test.out
+	gcov -b small_test.c >> small_test.out
+	cat small_test.c.gcov >> small_test.out
 
+#END MY ADDITIONS
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
@@ -36,4 +44,4 @@ player: player.c interface.o
 all: playdom player 
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe small_test small_test.out
