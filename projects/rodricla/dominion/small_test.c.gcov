@@ -1,0 +1,72 @@
+        -:    0:Source:small_test.c
+        -:    0:Graph:small_test.gcno
+        -:    0:Data:small_test.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdlib.h>
+        -:    5:#include <stdio.h>
+        -:    6://function that tests the rv=return value of a shuffle deck and compares it to the deckCount of a specific player
+        -:    7:void rv_shuffle_deckCount(int rv, int rp);
+function main called 1 returned 100% blocks executed 100%
+        1:    8:int main()
+        -:    9:{
+        1:   10:	struct gameState* testShuffle=newGame();
+call    0 returned 100%
+        1:   11:	struct gameState* save=newGame();
+call    0 returned 100%
+        1:   12:	int numPlayers=2;
+        1:   13:	int* kc=kingdomCards(adventurer, baron, council_room, feast, gardens, remodel, smithy, village, great_hall, minion);
+call    0 returned 100%
+        1:   14:	int randomSeed=1000;
+        1:   15:	initializeGame(numPlayers, kc, randomSeed, testShuffle);
+call    0 returned 100%
+        -:   16:	//rv=relevant player
+        1:   17:	int rv=0;
+        -:   18:	//save the state of the game
+        1:   19:	*save=*testShuffle;
+        1:   20:	int rp=whoseTurn(testShuffle);
+call    0 returned 100%
+        -:   21:	//assume that all hands are now in deck array or hand or played and that the discard pile is empty
+        1:   22:	printf("PRE-CONDITIONS: FOR TEST CASE 1:\n1.`shuffle()` is receiving an empty discard pile for player %i: ", rp);
+call    0 returned 100%
+        1:   23:	printf("testShuffle->discardCount[%i]:%i\n", rp, testShuffle->discardCount[rp]);
+call    0 returned 100%
+        1:   24:	shuffle(rp, testShuffle);
+call    0 returned 100%
+        1:   25:	printf("\n\nPRE-CONDITIONS: FOR TEST CASE 2: Empty player deck for player %i.\nShuffle checks the state of the players deck; if it is less than  1, it should return -1\n", rp);
+call    0 returned 100%
+        1:   26:	*testShuffle=*save;
+        1:   27:	testShuffle->deckCount[rp]=0;
+        1:   28:	rv=shuffle(rp, testShuffle);
+call    0 returned 100%
+        -:   29:	//Running the followign statement would give us 100% 
+        -:   30:	//rv_shuffle_deckCount(0, rp);
+        1:   31:	rv_shuffle_deckCount(rv, rp);
+call    0 returned 100%
+        -:   32:	
+        1:   33:	return 0;
+        -:   34:}
+function rv_shuffle_deckCount called 1 returned 100% blocks executed 60%
+        1:   35:void rv_shuffle_deckCount(int rv, int rp)
+        -:   36:{
+        -:   37:	
+        1:   38:	if (rv==-1)
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   39:	{
+        1:   40:		printf("SUCCESS: function noted that player %i deck was empty, and returned %i\n", rp, rv);
+call    0 returned 100%
+        -:   41:	}
+    #####:   42:	else if (rv!=-1)
+branch  0 never executed
+branch  1 never executed
+        -:   43:	{
+    #####:   44:		printf("FAILURE: did not note that the deckCount for player %i is less than one, returned %i\n", rp, rv);
+call    0 never executed
+        -:   45:	}
+        -:   46:	
+        1:   47:}
+        -:   48:

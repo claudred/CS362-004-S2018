@@ -1,0 +1,76 @@
+#include "dominion.h"
+#include "dominion_helpers.h"
+#include "rngs.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+void rv_shuffl_deckCount(int rv, int rp);
+int main(int argc, char *argv[]) 
+{
+	printf("Testing 'shuffle'\n");
+	struct gameState* testShuffle=newGame();
+	struct gameState* save=newGame();
+	int numPlayers=2;
+	int* kc=kingdomCards(adventurer, baron, council_room, feast, gardens, remodel, smithy, village, great_hall, minion);
+	int randomSeed=1000;
+	initializeGame(numPlayers, kc, randomSeed, testShuffle);
+	//return value=rv
+	int rv=0;
+	//save the state
+	*save=*testShuffle;
+	int rp=whoseTurn(testShuffle);
+	//assume that all hands are now in deck array or hand or played and that the discard pile is empty
+	printf("PRE-CONDITIONS: FOR TEST CASE 1:\n1.`shuffle()` is receiving an empty discard pile for player %i: ", rp);
+	printf("testShuffle->discardCount[%i]:%i\n", rp, testShuffle->discardCount[rp]);
+	shuffle(rp, testShuffle);
+	printf("\n\nPRE-CONDITIONS: FOR TEST CASE 2: Empty player deck for player %i.\nShuffle checks the state of the players deck; if it is less than  1, it should return -1\n", rp);
+	*testShuffle=*save;
+	testShuffle->deckCount[rp]=0;
+	rv=shuffle(rp, testShuffle);
+	
+	rv_shuffl_deckCount(rv, rp);
+	//Running the followign statement would give us 100% 
+	//rv_shuffl_deckCount(0, rp);
+	
+	return 0;
+	
+}
+void rv_shuffl_deckCount(int rv, int rp)
+{
+	if (rv==-1)
+	{
+		printf("SUCCESS: noted that the deckCount for player %i is less than one\n", rp);
+	}
+}
+/*
+int shuffle(int player, struct gameState *state) {
+ 
+
+	int newDeck[MAX_DECK];
+	int newDeckPos = 0;
+	int card;
+	int i;
+
+	if (state->deckCount[player] < 1)
+		return -1;
+	qsort ((void*)(state->deck[player]), state->deckCount[player], sizeof(int), compare); 
+	//SORT CARDS IN DECK TO ENSURE DETERMINISM!
+
+	while (state->deckCount[player] > 0) {
+		card = floor(Random() * state->deckCount[player]);
+		newDeck[newDeckPos] = state->deck[player][card];
+		newDeckPos++;
+		for (i = card; i < state->deckCount[player]-1; i++) {
+			state->deck[player][i] = state->deck[player][i+1];
+		}
+		state->deckCount[player]--;
+	}
+	for (i = 0; i < newDeckPos; i++) {
+		state->deck[player][i] = newDeck[i];
+		state->deckCount[player]++;
+	}
+
+	return 0;
+}
+
+*/
