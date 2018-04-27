@@ -24,7 +24,10 @@ int main(int argc, char *argv[])
 	int numPlayers=2;
 	int seed=420;
 	int handpos=0;
-	int choice1, choice2, choice3, bonus = 0;
+	int choice1=0;
+	int choice2=0;
+	int choice3=0;
+	int bonus = 0;
 	struct gameState *smithyTest=newGame();
 	struct gameState *save=newGame();
 	int *smithyTestKC=kingdomCards(adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy);
@@ -52,12 +55,11 @@ int main(int argc, char *argv[])
 	//exHCA=expected hand count after: draw three, discard this one; result in 2to more
 	int exHCA=hcb+2;
 	//exPCSA=expecte played card status after
-	int exPCSA=smithy;
+	//int exPCSA=smithy;
 	
 	//actHCA=actual hand count after
 	int actHCA=0;
 	
-	int return_val=0;
 	printf("Player %i's hand count before cardEffect is called with Smithy is: %i\n", rp+1, hcb);
 	printf("Here is the deck state before\n");
 	printPlayerDeck(rp, smithyTest);
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
 	printf("Games last played card is %i\n", pcsb);
 	
 	printf("--TEST CASE 1: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n", card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
-	return_val=cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+	cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 	actHCA=smithyTest->handCount[rp];
 	printf("--STEP 1: Checking hand counts--\n");
 	if (actHCA==exHCA)
@@ -97,7 +99,7 @@ int main(int argc, char *argv[])
 	{
 		printf("--TEST CASE %i for handpost %i--\n", i+2, i);
 		handpos=i;
-		return_val=cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+		cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 		if (smithyTest->playedCards[smithyTest->playedCardCount-1]==save->hand[rp][handpos])
 		{
 			printf("SUCCESS: last played card matches saved hand in position %i: %i==%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
