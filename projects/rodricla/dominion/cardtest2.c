@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
 	printf("----TEST 1: If there is treasure in the players deck it should draw it-----\n");
 	
 	struct gameState *testAdventurer=newGame();
-	//int kc_ac[10]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10};	
 	int* kc_ac=kingdomCards(adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron);
 	int numPlayers=2;
 	int randomSeed=1234;
