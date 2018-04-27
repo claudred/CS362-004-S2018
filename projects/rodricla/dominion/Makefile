@@ -35,7 +35,8 @@ small_test.out: small_test
 	./small_test >> small_test.out
 	gcov -b small_test.c >> small_test.out
 	cat small_test.c.gcov >> small_test.out
-
+	gcov -b dominion.c >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
 #END MY ADDITIONS
 
 player: player.c interface.o
