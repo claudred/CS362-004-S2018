@@ -9,8 +9,6 @@ int main(int argc, char *argv[])
 {
 	printf("testing function `buyCard`, which takes parameters 'int supplyPos', and 'struct gameState *state'\n");
 	printf("-----START: TEST CASES 1 to 27------\n\n");
-	//printf("%i", treasure_map);
-//	int all_cards[27]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 	int i=0; 
 	struct gameState *testGame=newGame();
 	int *kc1=kingdomCards(adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall);
@@ -18,7 +16,6 @@ int main(int argc, char *argv[])
 	printf("You start the game with %i coins\n", testGame->coins);
 	int returnVal=0;
 	int num_buys_before=0;
-	//int num_buys_after=0;
 	int coins_before=0;
 	int coins_after=0;
 	int card_cost=0;
