@@ -135,9 +135,9 @@ int council_case(int currentPlayer, struct gameState* state, int handPos)
       drawCard(currentPlayer, state);
       	  //printf("Player %i, hand count: %i\n", currentPlayer+1, state->handCount[currentPlayer]);
       printf("Item at hand pos %i is for player %i is %i\n", handPos, currentPlayer+1, state->hand[currentPlayer][handPos]);
-      printPlayerHand(currentPlayer, state);
+      //printPlayerHand(currentPlayer, state);
   	}
-  printPlayerHand(currentPlayer, state);
+  //printPlayerHand(currentPlayer, state);
   			
   //+1 Buy
   state->numBuys++;
