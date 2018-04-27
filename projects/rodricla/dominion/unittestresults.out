@@ -807,115 +807,112 @@ function main called 1 returned 100% blocks executed 89%
 call    0 returned 100%
         1:   11:	printf("-----START: TEST CASES 1 to 27------\n\n");
 call    0 returned 100%
-        -:   12:	//printf("%i", treasure_map);
-        -:   13://	int all_cards[27]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-        1:   14:	int i=0; 
-        1:   15:	struct gameState *testGame=newGame();
+        1:   12:	int i=0; 
+        1:   13:	struct gameState *testGame=newGame();
 call    0 returned 100%
-        1:   16:	int *kc1=kingdomCards(adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall);
+        1:   14:	int *kc1=kingdomCards(adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall);
 call    0 returned 100%
-        1:   17:	initializeGame(2, kc1, 3, testGame);
+        1:   15:	initializeGame(2, kc1, 3, testGame);
 call    0 returned 100%
-        1:   18:	printf("You start the game with %i coins\n", testGame->coins);
+        1:   16:	printf("You start the game with %i coins\n", testGame->coins);
 call    0 returned 100%
-        1:   19:	int returnVal=0;
-        1:   20:	int num_buys_before=0;
-        -:   21:	//int num_buys_after=0;
-        1:   22:	int coins_before=0;
-        1:   23:	int coins_after=0;
-        1:   24:	int card_cost=0;
-        1:   25:	int num_card_before=0;
-        -:   26:	
-       28:   27:	for (i=0; i < 27; i++)
+        1:   17:	int returnVal=0;
+        1:   18:	int num_buys_before=0;
+        1:   19:	int coins_before=0;
+        1:   20:	int coins_after=0;
+        1:   21:	int card_cost=0;
+        1:   22:	int num_card_before=0;
+        -:   23:	
+       28:   24:	for (i=0; i < 27; i++)
 branch  0 taken 96%
 branch  1 taken 4% (fallthrough)
-        -:   28:	{
-       27:   29:		coins_before=testGame->coins;
-       27:   30:		num_buys_before=testGame->numBuys;
-       27:   31:		num_card_before=testGame->supplyCount[i];
-       27:   32:		printf("STATUS BEFORE: coins: %i, buys: %i, number of %i card left: %i\n", coins_before, num_buys_before, i, num_card_before);
+        -:   25:	{
+       27:   26:		coins_before=testGame->coins;
+       27:   27:		num_buys_before=testGame->numBuys;
+       27:   28:		num_card_before=testGame->supplyCount[i];
+       27:   29:		printf("STATUS BEFORE: coins: %i, buys: %i, number of %i card left: %i\n", coins_before, num_buys_before, i, num_card_before);
 call    0 returned 100%
-       27:   33:		printf("TESTING BUYCARD with card %i\n", i);
+       27:   30:		printf("TESTING BUYCARD with card %i\n", i);
 call    0 returned 100%
-       27:   34:		returnVal=buyCard(i, testGame);
+       27:   31:		returnVal=buyCard(i, testGame);
 call    0 returned 100%
-       27:   35:		card_cost=getCost(i);
+       27:   32:		card_cost=getCost(i);
 call    0 returned 100%
-       27:   36:		if (num_card_before<=0)
+       27:   33:		if (num_card_before<=0)
 branch  0 taken 37% (fallthrough)
 branch  1 taken 63%
-        -:   37:		{
-       10:   38:			if (returnVal==-1)
+        -:   34:		{
+       10:   35:			if (returnVal==-1)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-        -:   39:			{
-       10:   40:				printf("SUCCESS: registered that the number of cards was not enough to buy\n");
+        -:   36:			{
+       10:   37:				printf("SUCCESS: registered that the number of cards was not enough to buy\n");
 call    0 returned 100%
-        -:   41:			}
-        -:   42:			else {
-    #####:   43:				printf("FAILURE: did not register that the number of cards was not enough to buy\n");
+        -:   38:			}
+        -:   39:			else {
+    #####:   40:				printf("FAILURE: did not register that the number of cards was not enough to buy\n");
 call    0 never executed
-        -:   44:			}
-        -:   45:
-        -:   46:		}
-       27:   47:		if (card_cost>coins_before)
+        -:   41:			}
+        -:   42:
+        -:   43:		}
+       27:   44:		if (card_cost>coins_before)
 branch  0 taken 67% (fallthrough)
 branch  1 taken 33%
-        -:   48:		{
-       18:   49:			if (returnVal==-1)
+        -:   45:		{
+       18:   46:			if (returnVal==-1)
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-        -:   50:			{
-       18:   51:				if (coins_after==coins_before)
+        -:   47:			{
+       18:   48:				if (coins_after==coins_before)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
-        -:   52:				{
-    #####:   53:					printf("SUCCESS: registered that did not have enough money to buy cards and did not charge\n");
+        -:   49:				{
+    #####:   50:					printf("SUCCESS: registered that did not have enough money to buy cards and did not charge\n");
 call    0 never executed
-        -:   54:					
-        -:   55:				}
-        -:   56:			}
-        -:   57:			else 
-        -:   58:			{
-    #####:   59:				printf("FAILURE: did not register that did not have enough money to buy cards.\n");
+        -:   51:					
+        -:   52:				}
+        -:   53:			}
+        -:   54:			else 
+        -:   55:			{
+    #####:   56:				printf("FAILURE: did not register that did not have enough money to buy cards.\n");
 call    0 never executed
-        -:   60:			}
-        -:   61:				
-        -:   62:		}
-        9:   63:		else if (card_cost<coins_before)
+        -:   57:			}
+        -:   58:				
+        -:   59:		}
+        9:   60:		else if (card_cost<coins_before)
 branch  0 taken 44% (fallthrough)
 branch  1 taken 56%
-        -:   64:		{
-        4:   65:			if (returnVal==-1)
+        -:   61:		{
+        4:   62:			if (returnVal==-1)
 branch  0 taken 25% (fallthrough)
 branch  1 taken 75%
-        1:   66:				printf("FAILURE: had enough money to buy cards but some issue occurred; or SUCCESS if other issue shown\n");
+        1:   63:				printf("FAILURE: had enough money to buy cards but some issue occurred; or SUCCESS if other issue shown\n");
 call    0 returned 100%
-        3:   67:			else if (coins_after==coins_before-card_cost)
+        3:   64:			else if (coins_after==coins_before-card_cost)
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
-    #####:   68:				printf("SUCCESS: coins after are equal to coins before minus the coin cost\n");
+    #####:   65:				printf("SUCCESS: coins after are equal to coins before minus the coin cost\n");
 call    0 never executed
-        -:   69:		}
-        -:   70:		
-        -:   71:		
-        -:   72:	
-       27:   73:		printf("STATUS AFTER:  coins: %i, buys: %i, number of %i card left: %i\n", testGame->coins, testGame->numBuys, i, testGame->supplyCount[i]);
+        -:   66:		}
+        -:   67:		
+        -:   68:		
+        -:   69:	
+       27:   70:		printf("STATUS AFTER:  coins: %i, buys: %i, number of %i card left: %i\n", testGame->coins, testGame->numBuys, i, testGame->supplyCount[i]);
 call    0 returned 100%
-       27:   74:		printf("%i\n", returnVal);
+       27:   71:		printf("%i\n", returnVal);
 call    0 returned 100%
-       27:   75:		printf("RE-ADDING COINS, CARDs AND NUM BUYS TO KEEP TESTING\n");
+       27:   72:		printf("RE-ADDING COINS, CARDs AND NUM BUYS TO KEEP TESTING\n");
 call    0 returned 100%
-       27:   76:		testGame->coins=coins_before;
-       27:   77:		testGame->numBuys=num_buys_before;
-       27:   78:		testGame->supplyCount[i]=num_card_before;
-        -:   79:		
-        -:   80:		
-        -:   81:	}
-        1:   82:	printf("-----FINISHED: TEST CASE 1-27------\n\n");
+       27:   73:		testGame->coins=coins_before;
+       27:   74:		testGame->numBuys=num_buys_before;
+       27:   75:		testGame->supplyCount[i]=num_card_before;
+        -:   76:		
+        -:   77:		
+        -:   78:	}
+        1:   79:	printf("-----FINISHED: TEST CASE 1-27------\n\n");
 call    0 returned 100%
-        1:   83:	return 0;
-        -:   84:}
+        1:   80:	return 0;
+        -:   81:}
         -:    0:Source:cardtest1.c
         -:    0:Graph:cardtest1.gcno
         -:    0:Data:cardtest1.gcda
@@ -1119,137 +1116,136 @@ call    0 returned 100%
         -:   17:	
         1:   18:	struct gameState *testAdventurer=newGame();
 call    0 returned 100%
-        -:   19:	//int kc_ac[10]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10};	
-        1:   20:	int* kc_ac=kingdomCards(adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron);
+        1:   19:	int* kc_ac=kingdomCards(adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron);
 call    0 returned 100%
-        1:   21:	int numPlayers=2;
-        1:   22:	int randomSeed=1234;
-        -:   23:
-        1:   24:	int card=adventurer;
-        1:   25:	int choice1=0;
-        1:   26:	int choice2=0; 
-        1:   27:	int choice3=0;
-        1:   28:	int handPos=0;
-        1:   29:	int bonus=0;
-        -:   30:	
-        -:   31:	//relevant player we're testing.
-        1:   32:	int rp=-1;	
-        1:   33:	initializeGame(numPlayers, kc_ac, randomSeed, testAdventurer);
+        1:   20:	int numPlayers=2;
+        1:   21:	int randomSeed=1234;
+        -:   22:
+        1:   23:	int card=adventurer;
+        1:   24:	int choice1=0;
+        1:   25:	int choice2=0; 
+        1:   26:	int choice3=0;
+        1:   27:	int handPos=0;
+        1:   28:	int bonus=0;
+        -:   29:	
+        -:   30:	//relevant player we're testing.
+        1:   31:	int rp=-1;	
+        1:   32:	initializeGame(numPlayers, kc_ac, randomSeed, testAdventurer);
 call    0 returned 100%
-        -:   34:	
-        1:   35:	rp=whoseTurn(testAdventurer);
+        -:   33:	
+        1:   34:	rp=whoseTurn(testAdventurer);
 call    0 returned 100%
-        1:   36:	testAdventurer->hand[rp][handPos]=adventurer;
-        1:   37:	printSupplyCount(testAdventurer);
+        1:   35:	testAdventurer->hand[rp][handPos]=adventurer;
+        1:   36:	printSupplyCount(testAdventurer);
 call    0 returned 100%
-        -:   38:	
-        1:   39:	struct gameState *save=newGame();
+        -:   37:	
+        1:   38:	struct gameState *save=newGame();
 call    0 returned 100%
-        1:   40:	*save=*testAdventurer;
-        -:   41://	printPlayerDeck(rp, testAdventurer);
-        1:   42:	printf("PLAYER: %i\n", rp);
+        1:   39:	*save=*testAdventurer;
+        -:   40://	printPlayerDeck(rp, testAdventurer);
+        1:   41:	printf("PLAYER: %i\n", rp);
 call    0 returned 100%
-        1:   43:	printf("At this point, we know that the player should have only treasure in the deck; so we expect that the hand count before and after should differ by two counts\n");
+        1:   42:	printf("At this point, we know that the player should have only treasure in the deck; so we expect that the hand count before and after should differ by two counts\n");
 call    0 returned 100%
-        1:   44:	printf("Player's hand count before: %i\n", testAdventurer->handCount[rp]);
+        1:   43:	printf("Player's hand count before: %i\n", testAdventurer->handCount[rp]);
 call    0 returned 100%
-        1:   45:	printPlayerDeck(rp, testAdventurer);
+        1:   44:	printPlayerDeck(rp, testAdventurer);
 call    0 returned 100%
-        1:   46:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+        1:   45:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
 call    0 returned 100%
-        -:   47:	/*if (checkLastPlayed(adventurer, testAdventurer)==1)
-        -:   48:	{
-        -:   49:		printf("SUCCESS: Last played card was adventurer\n");
-        -:   50:	}
-        -:   51:	else {
-        -:   52:		printf("FAILURE: last played card was: %i\n", testAdventurer->playedCards[testAdventurer->playedCardCount]);
-        -:   53:	}
-        -:   54:	if (checkLastDiscard(rp, card, testAdventurer)==1)
-        -:   55:	{
-        -:   56:		printf("LAST DISCARDED CARD IS %i\n", testAdventurer->discard[rp][testAdventurer->discardCount[rp]]);
-        -:   57:	}*/
-        -:   58:
-        1:   59:	printf("Player's hand count after: %i\n", testAdventurer->handCount[rp]);
+        -:   46:	/*if (checkLastPlayed(adventurer, testAdventurer)==1)
+        -:   47:	{
+        -:   48:		printf("SUCCESS: Last played card was adventurer\n");
+        -:   49:	}
+        -:   50:	else {
+        -:   51:		printf("FAILURE: last played card was: %i\n", testAdventurer->playedCards[testAdventurer->playedCardCount]);
+        -:   52:	}
+        -:   53:	if (checkLastDiscard(rp, card, testAdventurer)==1)
+        -:   54:	{
+        -:   55:		printf("LAST DISCARDED CARD IS %i\n", testAdventurer->discard[rp][testAdventurer->discardCount[rp]]);
+        -:   56:	}*/
+        -:   57:
+        1:   58:	printf("Player's hand count after: %i\n", testAdventurer->handCount[rp]);
 call    0 returned 100%
-        1:   60:	if (save->handCount[rp]+2==testAdventurer->handCount[rp])
+        1:   59:	if (save->handCount[rp]+2==testAdventurer->handCount[rp])
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-        -:   61:	{
-        1:   62:		printf("SUCCESS: correct number of items incremented from the count\n");
+        -:   60:	{
+        1:   61:		printf("SUCCESS: correct number of items incremented from the count\n");
 call    0 returned 100%
-        -:   63:		
-        -:   64:	}
-        -:   65:	else 
-        -:   66:	{
-    #####:   67:		printf("FAILURE: incorrect number of items incremented from the count\n");
+        -:   62:		
+        -:   63:	}
+        -:   64:	else 
+        -:   65:	{
+    #####:   66:		printf("FAILURE: incorrect number of items incremented from the count\n");
 call    0 never executed
-        -:   68:	}
-        1:   69:	printf("Checking player deck count\n");
+        -:   67:	}
+        1:   68:	printf("Checking player deck count\n");
 call    0 returned 100%
-        1:   70:	if (save->deckCount[rp]-2==testAdventurer->deckCount[rp])
+        1:   69:	if (save->deckCount[rp]-2==testAdventurer->deckCount[rp])
 branch  0 taken 100% (fallthrough)
 branch  1 taken 0%
-        -:   71:	{
-        1:   72:		printf("SUCCESS: correct number of treasure cards mined\n");
+        -:   70:	{
+        1:   71:		printf("SUCCESS: correct number of treasure cards mined\n");
 call    0 returned 100%
-        -:   73:	}
-        -:   74:	else 
-        -:   75:	{
-    #####:   76:		printf("FAILURE: incorrect number of treasure cards mined\n");
+        -:   72:	}
+        -:   73:	else 
+        -:   74:	{
+    #####:   75:		printf("FAILURE: incorrect number of treasure cards mined\n");
 call    0 never executed
-        -:   77:	}
-        1:   78:	printPlayerDeck(rp, testAdventurer);
+        -:   76:	}
+        1:   77:	printPlayerDeck(rp, testAdventurer);
 call    0 returned 100%
-        1:   79:	printf("TEST CASE 2: No treasure in deck; \n");
+        1:   78:	printf("TEST CASE 2: No treasure in deck; \n");
 call    0 returned 100%
-        1:   80:	*testAdventurer=*save;
-        1:   81:	rp=whoseTurn(testAdventurer);
+        1:   79:	*testAdventurer=*save;
+        1:   80:	rp=whoseTurn(testAdventurer);
 call    0 returned 100%
-        1:   82:	printf("Setting all cards for player %i's deck to curse\n", rp);
+        1:   81:	printf("Setting all cards for player %i's deck to curse\n", rp);
 call    0 returned 100%
-        1:   83:	int i=0;
-        7:   84:	for (i=0; i < testAdventurer->deckCount[rp]+1; i++)
+        1:   82:	int i=0;
+        7:   83:	for (i=0; i < testAdventurer->deckCount[rp]+1; i++)
 branch  0 taken 86%
 branch  1 taken 14% (fallthrough)
-        -:   85:	{
-        6:   86:		testAdventurer->deck[rp][i]=0;
-        -:   87:	}
-        1:   88:	printPlayerDeck(rp, testAdventurer);
+        -:   84:	{
+        6:   85:		testAdventurer->deck[rp][i]=0;
+        -:   86:	}
+        1:   87:	printPlayerDeck(rp, testAdventurer);
 call    0 returned 100%
-        1:   89:	printf("Discard count before call %i\n", testAdventurer->discardCount[rp]);
+        1:   88:	printf("Discard count before call %i\n", testAdventurer->discardCount[rp]);
 call    0 returned 100%
-        1:   90:	printf("Testing card effect with only curse cards in deck; expecting discard count to increment by 5\n");
+        1:   89:	printf("Testing card effect with only curse cards in deck; expecting discard count to increment by 5\n");
 call    0 returned 100%
-        1:   91:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+        1:   90:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
 call    0 returned 100%
-        1:   92:	printPlayerDeck(rp, testAdventurer);
+        1:   91:	printPlayerDeck(rp, testAdventurer);
 call    0 returned 100%
-        1:   93:	printPlayerHand(rp, testAdventurer);
+        1:   92:	printPlayerHand(rp, testAdventurer);
 call    0 returned 100%
-        1:   94:	if (save->discardCount[rp]+5==testAdventurer->discardCount[rp])
+        1:   93:	if (save->discardCount[rp]+5==testAdventurer->discardCount[rp])
 branch  0 taken 0% (fallthrough)
 branch  1 taken 100%
-        -:   95:	{
-    #####:   96:		printf("SUCCESS: discard count is %i\n", testAdventurer->discardCount[rp]);
+        -:   94:	{
+    #####:   95:		printf("SUCCESS: discard count is %i\n", testAdventurer->discardCount[rp]);
 call    0 never executed
-        -:   97:	}
-        -:   98:	else 
-        -:   99:	{
-        1:  100:		printf("FAILURE: discard count is %i\n", testAdventurer->discardCount[rp]);
+        -:   96:	}
+        -:   97:	else 
+        -:   98:	{
+        1:   99:		printf("FAILURE: discard count is %i\n", testAdventurer->discardCount[rp]);
 call    0 returned 100%
-        -:  101:	}
-        1:  102:	printDiscard(rp, testAdventurer);
+        -:  100:	}
+        1:  101:	printDiscard(rp, testAdventurer);
 call    0 returned 100%
-        -:  103:	/*
-        -:  104:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
-        -:  105:	printPlayerDeck(rp, testAdventurer);
-        -:  106:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
-        -:  107:	printPlayerDeck(rp, testAdventurer);*/
-        1:  108:	printf("\n\n\n----FINISHED ALL TESTS--\n");
+        -:  102:	/*
+        -:  103:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+        -:  104:	printPlayerDeck(rp, testAdventurer);
+        -:  105:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+        -:  106:	printPlayerDeck(rp, testAdventurer);*/
+        1:  107:	printf("\n\n\n----FINISHED ALL TESTS--\n");
 call    0 returned 100%
-        1:  109:	return 0;
-        -:  110:
-        -:  111:}
+        1:  108:	return 0;
+        -:  109:
+        -:  110:}
         -:    0:Source:cardtest3.c
         -:    0:Graph:cardtest3.gcno
         -:    0:Data:cardtest3.gcda
