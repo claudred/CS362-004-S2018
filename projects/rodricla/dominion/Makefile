@@ -33,50 +33,45 @@ runtests: testDrawCard
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
 	
-unittest1: unittest1.c dominion.c rngs.c
-	gcc unittest1.c dominion.c rngs.c test_helpers.c -o unittest1 $(CFLAGS)
-	gcc unittest1.c dominion.c rngs.c test_helpers.c -o unittest1 -coverage -fpic -lm
+test_helpers.o: test_helpers.h test_helpers.c
+	gcc -c test_helpers.c -g $(CFLAGS)
+
+unittest1: unittest1.c dominion.o rngs.o
+	gcc -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
 	./unittest1
-	
-unittest2: unittest2.c dominion.c rngs.c
-	gcc unittest2.c dominion.c rngs.c test_helpers.c -o unittest2 $(CFLAGS)
-	gcc unittest2.c dominion.c rngs.c test_helpers.c -o unittest2 -coverage -fpic -lm
+
+unittest2: unittest2.c dominion.o rngs.o
+	gcc -o unittest2 -g  unittest2.c dominion.o rngs.o $(CFLAGS)
 	./unittest2
 
-unittest3: unittest3.c dominion.c rngs.c
-	gcc unittest3.c dominion.c rngs.c test_helpers.c -o unittest3 $(CFLAGS)
-	gcc unittest3.c dominion.c rngs.c test_helpers.c -o unittest3 -coverage -fpic -lm
+unittest3: unittest3.c dominion.o rngs.o
+	gcc -o unittest3 -g  unittest3.c dominion.o rngs.o $(CFLAGS)
 	./unittest3
-	
-unittest4: unittest4.c dominion.c rngs.c		
-	gcc unittest4.c dominion.c rngs.c test_helpers.c -o unittest4 $(CFLAGS)
-	gcc unittest4.c dominion.c rngs.c test_helpers.c -o unittest4 -coverage -fpic -lm
+
+unittest4: unittest4.c dominion.o rngs.o
+	gcc -o unittest4 -g  unittest4.c dominion.o rngs.o $(CFLAGS)
 	./unittest4
-	
-cardtest1: cardtest1.c dominion.c rngs.c
-	gcc cardtest1.c dominion.c rngs.c test_helpers.c -o cardtest1 $(CFLAGS)
-	gcc cardtest1.c dominion.c rngs.c test_helpers.c -o cardtest1 -coverage -fpic -lm
+
+cardtest1: cardtest1.c dominion.o rngs.o test_helpers.o
+	gcc -o cardtest1 -g  cardtest1.c dominion.o rngs.o test_helpers.o $(CFLAGS)
 	./cardtest1
-		
-cardtest2: cardtest2.c dominion.c rngs.c
-	gcc cardtest2.c dominion.c rngs.c test_helpers.c -o cardtest2 $(CFLAGS)
-	gcc cardtest2.c dominion.c rngs.c test_helpers.c -o cardtest2 -coverage -fpic -lm
+
+cardtest2: cardtest2.c dominion.o rngs.o test_helpers.o
+	gcc -o cardtest2 -g  cardtest2.c dominion.o rngs.o test_helpers.o $(CFLAGS)
 	./cardtest2
 
-cardtest3: cardtest3.c dominion.c rngs.c
-	gcc cardtest3.c dominion.c rngs.c test_helpers.c -o cardtest3 $(CFLAGS)
-	gcc cardtest3.c dominion.c rngs.c test_helpers.c -o cardtest3 -coverage -fpic -lm
+cardtest3: cardtest3.c dominion.o rngs.o test_helpers.o
+	gcc -o cardtest3 -g  cardtest3.c dominion.o rngs.o test_helpers.o $(CFLAGS)		
 	./cardtest3
-		
-cardtest4: cardtest4.c dominion.c rngs.c 		
-	gcc cardtest4.c dominion.c rngs.c test_helpers.c -o cardtest4 $(CFLAGS)
-	gcc cardtest4.c dominion.c rngs.c test_helpers.c -o cardtest4 -coverage -fpic -lm
-	./cardtest4
 
+cardtest4: cardtest4.c dominion.o rngs.o test_helpers.o
+	gcc -o cardtest4 -g  cardtest4.c dominion.o rngs.o test_helpers.o $(CFLAGS)
+	./cardtest4
 mytests: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4 dominion.o
 
 unittestresults.out: mytests
-	gcov unittest1.c -b>> unittestresults.out
+	
+	gcov unittest1.c -b > unittestresults.out
 	gcov unittest2.c -b>> unittestresults.out
 	gcov unittest3.c -b>> unittestresults.out
 	gcov unittest4.c -b>> unittestresults.out
@@ -84,6 +79,7 @@ unittestresults.out: mytests
 	gcov cardtest2.c -b>> unittestresults.out
 	gcov cardtest3.c -b>> unittestresults.out
 	gcov cardtest4.c -b>> unittestresults.out
+	gcov dominion.c -b>> unittestresults.out
 	
 	cat unittest1.c.gcov >> unittestresults.out 
 	cat unittest2.c.gcov >> unittestresults.out 
@@ -93,6 +89,7 @@ unittestresults.out: mytests
 	cat cardtest2.c.gcov >> unittestresults.out 
 	cat cardtest3.c.gcov >> unittestresults.out 
 	cat cardtest4.c.gcov >> unittestresults.out 
+	cat dominion.c.gcov >> unittestresults.out
 	
 	./unittest1 >> unittestresults.out 
 	./unittest2 >> unittestresults.out 
@@ -102,8 +99,8 @@ unittestresults.out: mytests
 	./cardtest2 >> cardtestresults.out 
 	./cardtest3 >> cardtestresults.out 
 	./cardtest4 >> cardtestresults.out 
-
-
+	
+	
 all: playdom player
 
 
