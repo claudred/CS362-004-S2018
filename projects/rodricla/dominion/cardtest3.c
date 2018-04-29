@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	printf("----Welcome to cardtest3.c----\n");
 	printf("----We will test the Council card in this unit test---\n");
 	printf("---Council is an Action card from the Base Set----\n");
-	printf("---It is a terminal Action card that forces each player to darw a card---\n");
+	printf("---It is a terminal Action card that forces each player to draw a card---\n");
 	printf("---Itelf, it draws 4 cards for the player and give the player a buy---\n");
 	
 	
