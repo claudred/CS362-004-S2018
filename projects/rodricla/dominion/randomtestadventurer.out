@@ -1,0 +1,175 @@
+File 'randomtestadventurer.c'
+Lines executed:94.74% of 57
+Branches executed:100.00% of 8
+Taken at least once:62.50% of 8
+Calls executed:91.89% of 37
+Creating 'randomtestadventurer.c.gcov'
+
+File 'dominion.c'
+Lines executed:30.99% of 568
+Branches executed:28.54% of 417
+Taken at least once:19.90% of 417
+Calls executed:22.45% of 98
+Creating 'dominion.c.gcov'
+
+        -:    0:Source:randomtestadventurer.c
+        -:    0:Graph:randomtestadventurer.gcno
+        -:    0:Data:randomtestadventurer.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#include "dominion.h"
+        -:    2:#include "dominion_helpers.h"
+        -:    3:#include "rngs.h"
+        -:    4:#include <stdio.h>
+        -:    5:#include <math.h>
+        -:    6:#include <stdlib.h>
+        -:    7:#include <assert.h>
+        -:    8:#include "test_helpers.h"
+function main called 1 returned 100% blocks executed 93%
+        1:    9:int main(int argc, char *argv[]) 
+        -:   10:{
+        1:   11:	printf("----STARTING TESTS----\n\n\n");
+call    0 returned 100%
+        1:   12:	printf("----Welcome to cardtest2.c----\n");
+call    0 returned 100%
+        1:   13:	printf("----We will test the Adventurer card in this unit test----\n");
+call    0 returned 100%
+        1:   14:	printf("----Adventurer is an Action card from the Base Set----\n");
+call    0 returned 100%
+        1:   15:	printf("-----It is a terminal Action card that digs for Treasure cards in the deck-----\n");
+call    0 returned 100%
+        1:   16:	printf("----TEST 1: If there is treasure in the players deck it should draw it-----\n");
+call    0 returned 100%
+        -:   17:	
+        1:   18:	struct gameState *testAdventurer=newGame();
+call    0 returned 100%
+        1:   19:	int* kc_ac=kingdomCards(adventurer, smithy, embargo, village, minion, mine, cutpurse, sea_hag, tribute, baron);
+call    0 returned 100%
+        1:   20:	int numPlayers=2;
+        1:   21:	int randomSeed=1234;
+        -:   22:
+        1:   23:	int card=adventurer;
+        1:   24:	int choice1=0;
+        1:   25:	int choice2=0; 
+        1:   26:	int choice3=0;
+        1:   27:	int handPos=0;
+        1:   28:	int bonus=0;
+        -:   29:	
+        -:   30:	//relevant player we're testing.
+        1:   31:	int rp=-1;	
+        1:   32:	initializeGame(numPlayers, kc_ac, randomSeed, testAdventurer);
+call    0 returned 100%
+        -:   33:	
+        1:   34:	rp=whoseTurn(testAdventurer);
+call    0 returned 100%
+        1:   35:	testAdventurer->hand[rp][handPos]=adventurer;
+        1:   36:	printSupplyCount(testAdventurer);
+call    0 returned 100%
+        -:   37:	
+        1:   38:	struct gameState *save=newGame();
+call    0 returned 100%
+        1:   39:	*save=*testAdventurer;
+        -:   40://	printPlayerDeck(rp, testAdventurer);
+        1:   41:	printf("PLAYER: %i\n", rp);
+call    0 returned 100%
+        1:   42:	printf("At this point, we know that the player should have only treasure in the deck; so we expect that the hand count before and after should differ by two counts\n");
+call    0 returned 100%
+        1:   43:	printf("Player's hand count before: %i\n", testAdventurer->handCount[rp]);
+call    0 returned 100%
+        1:   44:	printPlayerDeck(rp, testAdventurer);
+call    0 returned 100%
+        1:   45:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+call    0 returned 100%
+        -:   46:	/*if (checkLastPlayed(adventurer, testAdventurer)==1)
+        -:   47:	{
+        -:   48:		printf("SUCCESS: Last played card was adventurer\n");
+        -:   49:	}
+        -:   50:	else {
+        -:   51:		printf("FAILURE: last played card was: %i\n", testAdventurer->playedCards[testAdventurer->playedCardCount]);
+        -:   52:	}
+        -:   53:	if (checkLastDiscard(rp, card, testAdventurer)==1)
+        -:   54:	{
+        -:   55:		printf("LAST DISCARDED CARD IS %i\n", testAdventurer->discard[rp][testAdventurer->discardCount[rp]]);
+        -:   56:	}*/
+        -:   57:
+        1:   58:	printf("Player's hand count after: %i\n", testAdventurer->handCount[rp]);
+call    0 returned 100%
+        1:   59:	if (save->handCount[rp]+2==testAdventurer->handCount[rp])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   60:	{
+        1:   61:		printf("SUCCESS: correct number of items incremented from the count\n");
+call    0 returned 100%
+        -:   62:		
+        -:   63:	}
+        -:   64:	else 
+        -:   65:	{
+    #####:   66:		printf("FAILURE: incorrect number of items incremented from the count\n");
+call    0 never executed
+        -:   67:	}
+        1:   68:	printf("Checking player deck count\n");
+call    0 returned 100%
+        1:   69:	if (save->deckCount[rp]-2==testAdventurer->deckCount[rp])
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+        -:   70:	{
+        1:   71:		printf("SUCCESS: correct number of treasure cards mined\n");
+call    0 returned 100%
+        -:   72:	}
+        -:   73:	else 
+        -:   74:	{
+    #####:   75:		printf("FAILURE: incorrect number of treasure cards mined\n");
+call    0 never executed
+        -:   76:	}
+        1:   77:	printPlayerDeck(rp, testAdventurer);
+call    0 returned 100%
+        1:   78:	printf("TEST CASE 2: No treasure in deck; \n");
+call    0 returned 100%
+        1:   79:	*testAdventurer=*save;
+        1:   80:	rp=whoseTurn(testAdventurer);
+call    0 returned 100%
+        1:   81:	printf("Setting all cards for player %i's deck to curse\n", rp);
+call    0 returned 100%
+        1:   82:	int i=0;
+        7:   83:	for (i=0; i < testAdventurer->deckCount[rp]+1; i++)
+branch  0 taken 86%
+branch  1 taken 14% (fallthrough)
+        -:   84:	{
+        6:   85:		testAdventurer->deck[rp][i]=0;
+        -:   86:	}
+        1:   87:	printPlayerDeck(rp, testAdventurer);
+call    0 returned 100%
+        1:   88:	printf("Discard count before call %i\n", testAdventurer->discardCount[rp]);
+call    0 returned 100%
+        1:   89:	printf("Testing card effect with only curse cards in deck; expecting discard count to increment by 5\n");
+call    0 returned 100%
+        1:   90:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+call    0 returned 100%
+        1:   91:	printPlayerDeck(rp, testAdventurer);
+call    0 returned 100%
+        1:   92:	printPlayerHand(rp, testAdventurer);
+call    0 returned 100%
+        1:   93:	if (save->discardCount[rp]+5==testAdventurer->discardCount[rp])
+branch  0 taken 0% (fallthrough)
+branch  1 taken 100%
+        -:   94:	{
+    #####:   95:		printf("SUCCESS: discard count is %i\n", testAdventurer->discardCount[rp]);
+call    0 never executed
+        -:   96:	}
+        -:   97:	else 
+        -:   98:	{
+        1:   99:		printf("FAILURE: discard count is %i\n", testAdventurer->discardCount[rp]);
+call    0 returned 100%
+        -:  100:	}
+        1:  101:	printDiscard(rp, testAdventurer);
+call    0 returned 100%
+        -:  102:	/*
+        -:  103:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+        -:  104:	printPlayerDeck(rp, testAdventurer);
+        -:  105:	cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);	
+        -:  106:	printPlayerDeck(rp, testAdventurer);*/
+        1:  107:	printf("\n\n\n----FINISHED ALL TESTS--\n");
+call    0 returned 100%
+        1:  108:	return 0;
+        -:  109:
+        -:  110:}
