@@ -28,17 +28,16 @@ int main(int argc, char *argv[])
 	int bonus = 0;
 	struct gameState *smithyTest=newGame();
 	struct gameState *save=newGame();
+	
+	struct gameState *blankSave=newGame();
 	int *smithyTestKC=kingdomCards(adventurer, gardens, embargo, village, minion, mine, cutpurse, sea_hag, tribute, smithy);
 	initializeGame(numPlayers, smithyTestKC, seed, smithyTest);
+	*blankSave=*smithyTest;
 	*save=*smithyTest;
 	printf("TEST CASE PARAMETERS: %i players, ", smithyTest->numPlayers);
 	//relevant player=rp
 	int rp=smithyTest->whoseTurn;
 	printf("testing with player %i.\n", rp+1);
-	//placing Smithy in players hand
-	printf("Placing Smithy (enum %i) in player %i's hand at position %i\n",smithy, rp, handpos);
-	
-	smithyTest->hand[rp][handpos]=smithy;
 	//hcb=hand count before
 	int hcb=smithyTest->handCount[rp];
 	printf("Player %i's handcount before being run is %i", rp, hcb);
@@ -72,14 +71,22 @@ int main(int argc, char *argv[])
 	int upperBoundary=smithyTest->handCount[rp]+1;
 	int numRandCounter=upperBoundary*2;
 	int i;
+	
 	for (i=0; i < numRandCounter; i++)
 	{
-		//add one to 
+		//add one to upperBoundary so that when we decrement it later it still goes up to the
+		//upper boundary
 		handpos=rand() % (upperBoundary+1);
+		//decrement so that chance of zero exists.
 		handpos--;	
 		printf("randomly generated %i\n", handpos);
 		randomCounter=i;
+		//placing Smithy in players hand
+		printf("Placing Smithy (enum %i) in player %i's hand at position %i\n",smithy, rp, handpos);
+	
+		smithyTest->hand[rp][handpos]=smithy;
 		printf("--TEST CASE %i: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n",randomCounter,  card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+		*save=*smithyTest;
 		cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 		actHCA=smithyTest->handCount[rp];
 	
@@ -124,18 +131,22 @@ int main(int argc, char *argv[])
 			}
 			*smithyTest=*save;
 		}*/
-		if (smithyTest->playedCards[smithyTest->playedCardCount-1]==save->hand[rp][handpos])
+		//the smityh function discards the card without using the trash flag, so we expect the last played card, at the index of the last cardcount in smithyTest's playedCards array, to match the 
+		//card at the previous handposition put in
+		if (smithyTest->playedCards[save->playedCardCount]==save->hand[rp][handpos])
                 {
-			printf("SUCCESS: last played card matches saved hand in position %i: %i==%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
+			printf("SUCCESS: last played card matches saved hand in position %i: the %i the played card is  %i whcih matches the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
 		}
 		else
               	{
-			printf("FAILURE: last played card does NOT match saved hand in position %i: %i!=%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
+			
+			printf("FAILURE; last played card DOES NOT  match saved hand in position %i: the %i the played card is  %i which does NOT match the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
 		}
-		printf("---TEST CASE %i finished--- \n", randomCounter);
+		printf("---TEST CASE %i finished, resetting game state to original--- \n", randomCounter);
+		*smithyTest=*blankSave;
 	}
 	//*smithyTest=*saveTwo;
-	printf("\n\n\n----FINISHED ALL TESTS--\n");
+	printf("\n\n\n----FINISHED ALL %i  TESTS---\n", numRandCounter);
 	
 	
 	return 0;
