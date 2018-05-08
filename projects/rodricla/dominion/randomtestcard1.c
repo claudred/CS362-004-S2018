@@ -178,6 +178,7 @@ int main(int argc, char *argv[])
 	
 			smithyTest->hand[rp][handpos]=smithy;
 			printf("--TEST CASE %i: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n",randomCounter,  card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+			printf("saving smithyTest to save before running cardeffect");
 			*save=*smithyTest;
 			cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 			actHCA=smithyTest->handCount[rp];
