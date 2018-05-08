@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "test_helpers.h"
+#include <string.h>
 
 int main(int argc, char *argv[]) 
 {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
 	
 	int card=smithy;
 	int numPlayers=2;
-	int seed=420;
+	int seed=450;
 	int handpos=0;
 	int choice1=0;
 	int choice2=0;
@@ -40,28 +41,22 @@ int main(int argc, char *argv[])
 	printf("testing with player %i.\n", rp+1);
 	//hcb=hand count before
 	int hcb=smithyTest->handCount[rp];
-	printf("Player %i's handcount before being run is %i", rp, hcb);
-	
+	printf("Player %i's handcount before being run is %i\n", rp, hcb);
 	//played card count before
 	int pccb=smithyTest->playedCardCount;
-	printf("The overall played card count before playing is %i", pccb);
-	
+	printf("The overall played card count before playing is %i\n", pccb);
 	//pcsb=played card status before
 	int pcsb=smithyTest->playedCards[pccb];
-	
 	//exPCCA=expected played card count after
 	int exPCCA=pccb+1;
 	//exHCA=expected hand count after: draw three, discard Cthis one; result in 2to more
 	int exHCA=hcb+2;
 	//exPCSA=expecte played card status after
 	//int exPCSA=smithy;
-	
 	//actHCA=actual hand count after
 	int actHCA=0;
-	
 	printf("Player %i's hand count before cardEffect is called with Smithy is: %i\n", rp+1, hcb);
 	printf("Here is the deck state before\n");
-//	printPlayerDeck(rp, smithyTest);
 	printf("The games played card count before is %i\n", pccb);
 	//printf("Games last played card is %i\n", pcsb);
 	int randomCounter=0;//This keeps track of which random test case we are running. 
@@ -70,8 +65,10 @@ int main(int argc, char *argv[])
 	int lowerBoundary=-1;
 	int upperBoundary=smithyTest->handCount[rp]+1;
 	int numRandCounter=upperBoundary*2;
+	int handPosSuccessCount=0;
+	int handPosFailureCount=0;
+	int totalHandPosTests=3;
 	int i;
-	
 	for (i=0; i < numRandCounter; i++)
 	{
 		//add one to upperBoundary so that when we decrement it later it still goes up to the
@@ -79,12 +76,12 @@ int main(int argc, char *argv[])
 		handpos=rand() % (upperBoundary+1);
 		//decrement so that chance of zero exists.
 		handpos--;	
-		printf("randomly generated %i\n", handpos);
+		printf("randomly generated %i from range of %i to %i in valid options of %i to %i\n", handpos, -1, upperBoundary, 0, smithyTest->handCount[rp]-1);
 		randomCounter=i;
-		//placing Smithy in players hand
 		printf("Placing Smithy (enum %i) in player %i's hand at position %i\n",smithy, rp, handpos);
 	
 		smithyTest->hand[rp][handpos]=smithy;
+		
 		printf("--TEST CASE %i: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n",randomCounter,  card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 		*save=*smithyTest;
 		cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
@@ -94,92 +91,92 @@ int main(int argc, char *argv[])
 		if (actHCA==exHCA)
 		{
 			printf("SUCCESS: new handcount is %i\n", smithyTest->handCount[rp]);
+			handPosSuccessCount++;
 		}
 		else
 		{	
 			printf("FAILURE: handcount has %i cards instead of required %i\n", smithyTest->handCount[rp], save->handCount[rp]+2);
+			 handPosFailureCount++;
 		}
-		//printPlayerHand(rp, smithyTest);
 		printf("--STEP 2: Checking that expected played card count matches actual played card count--\n");
 		if (exPCCA!=smithyTest->playedCardCount)
 		{
 			printf("FAILURE: Expected %i, got %i\n", exPCCA, smithyTest->playedCardCount);
+			handPosFailureCount++;
 		}
 		else if (exPCCA==smithyTest->playedCardCount)
 		{	
+			
 			printf("SUCCESS: Expected %i, got %i\n", exPCCA, smithyTest->playedCardCount);
+			handPosSuccessCount++;
 		}
 		printf("--STEP 3: Checking that corect card is discarded---\n");
-	
-		/*printf("Checking that expected card was removed to 'played cards' from the deck for 5 test cases of handPos being 0 through %i\n", save->handCount[rp]);
-		int i;
-		int firstHC=save->handCount[rp];
-		struct gameState *saveTwo=newGame();
-		*saveTwo=*smithyTest;
-		for (i=0; i < firstHC; i++)
-		{
-			printf("--TEST CASE %i for handpost %i--\n", i+2, i);
-			handpos=i;
-			cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
-			if (smithyTest->playedCards[smithyTest->playedCardCount-1]==save->hand[rp][handpos])
-			{
-				printf("SUCCESS: last played card matches saved hand in position %i: %i==%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
-			}
-			else
-			{	
-				printf("FAILURE: last played card does NOT match saved hand in position %i: %i!=%i\n", handpos, smithyTest->playedCards[smithyTest->playedCardCount-1], save->hand[rp][handpos]);
-			}
-			*smithyTest=*save;
-		}*/
-		//the smityh function discards the card without using the trash flag, so we expect the last played card, at the index of the last cardcount in smithyTest's playedCards array, to match the 
-		//card at the previous handposition put in
 		if (smithyTest->playedCards[save->playedCardCount]==save->hand[rp][handpos])
-                {
-			printf("SUCCESS: last played card matches saved hand in position %i: the %i the played card is  %i whcih matches the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
-		}
-		else
-              	{
+        {
+			printf("SUCCESS: last played card matches saved hand in position %i: the %ith played card is  %i which matches the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
+			handPosSuccessCount++;
 			
-			printf("FAILURE; last played card DOES NOT  match saved hand in position %i: the %i the played card is  %i which does NOT match the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
+		}	
+		else
+       {
+			printf("FAILURE; last played card DOES NOT  match saved hand in position %i:th %i the played card is  %i which does NOT match the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
+			handPosFailureCount++;
 		}
 		printf("---TEST CASE %i finished, resetting game state to original--- \n", randomCounter);
 		*smithyTest=*blankSave;
 	}
-	//*smithyTest=*saveTwo;
+	printf("\n---------$$$-----------\n%i ot of %i tests passed, \n%i failed, in total\n---------$$$-----------\n", handPosSuccessCount, 3*numRandCounter, handPosFailureCount);
+
 	//a second set of tests for random testing regarding the players that we choose
+	printf("\n\n########### STARTING SECOND SET OF TESTS WITH RANDOM VARIABLE: PLAYERS ###########\n\n\n");
+	handpos=0;
 	int j=0;
 	for (j=0; j < MAX_PLAYERS*2; j++)
 	{
-		printf("\n\n\n-----Running random test number %i-----\n\n\n", j); 
-		numPlayers=rand() % MAX_PLAYERS;
-		numPlayers++;
-		printf("Randomly selected %i players\n\n", numPlayers);
-		printf("Initializing Gmae with %i players\n", numPlayers);
+		printf("\n-----Running outer loop random test number %i-----\n", j); 
+		numPlayers=rand() % (MAX_PLAYERS-1);
+		numPlayers=numPlayers+2;
+		printf("Randomly selected to play with %i players\n", numPlayers);
+		printf("Initializing Game with %i players\n", numPlayers);
+		smithyTest=newGame();
+		struct gameState* outerSave=newGame();
 		initializeGame(numPlayers, smithyTestKC, seed, smithyTest);
-		printf("Setting up blankSave and save");
-		*blankSave=*smithyTest;
-		*save=*smithyTest;
+		*outerSave=*smithyTest;
+		
 		numRandCounter=smithyTest->numPlayers;
-		//printf("\n\n\n----Starting SECOND RANDOM TEST; random generation of players----\n\n\n");
-
-		printf("%i total players\n", numRandCounter);
-
+		upperBoundary=smithyTest->numPlayers;
+		//upperBoundary--;
 		for (i=0; i < numRandCounter; i++)
 		{
-			//add one to upperBoundary so that when we decrement it later it still goes up to the
-			//upper boundary
-			rp=rand() % (smithyTest->numPlayers);
-			//decrement so that chance of zero exists.
-			rp++;
-			printf("randomly generated %i; testing with this player\n\n", rp);
+	
+			
+			rp=rand() % upperBoundary;
+			printf("randomly generated %i from range of 0 to %i; testing with this player\n\n", rp, upperBoundary);
 			randomCounter=i;
+			
 			//placing Smithy in players hand
 			printf("Placing Smithy (enum %i) in player %i's hand at position %i\n",smithy, rp, handpos);
-	
 			smithyTest->hand[rp][handpos]=smithy;
+			printf("Setting player turn\n");
+			smithyTest->whoseTurn=rp;
+			printf("It is %i's turn now\n",whoseTurn(smithyTest));
+			//draw carsds if cards not initialized
+			if (smithyTest->handCount[rp]==0)
+			{
+				int x=0;
+				for (x=0; x < 5; x++)
+				{
+					drawCard(rp, smithyTest);
+				}
+				
+			}
+			//printPlayerHand(rp, smithyTest);
 			printf("--TEST CASE %i: calling with card:\n%i, choice1: %i, choice2: %i, choice3: %i, smithyTest: %p, handpos: %i, bonus: %p--\n",randomCounter,  card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
+			
 			printf("saving smithyTest to save before running cardeffect");
+			save=newGame();
 			*save=*smithyTest;
+			
 			cardEffect(card, choice1, choice2, choice3, smithyTest, handpos, &bonus);
 			actHCA=smithyTest->handCount[rp];
 	
@@ -196,33 +193,28 @@ int main(int argc, char *argv[])
 			printf("--STEP 2: Checking that expected played card count matches actual played card count--\n");
 			if (save->playedCardCount+1!=smithyTest->playedCardCount)
 			{
-				printf("FAILURE: Expeted %i, got %i\n", exPCCA, smithyTest->playedCardCount);
+				printf("FAILURE: Expeted %i, got %i\n", save->playedCardCount+1, smithyTest->playedCardCount);
 			}
 			else if (save->playedCardCount+1==smithyTest->playedCardCount)
 			{		
-				printf("SUCCESS: Expected %i, got %i\n", exPCCA, smithyTest->playedCardCount);
+				printf("SUCCESS: Expected %i, got %i\n", save->playedCardCount+1, smithyTest->playedCardCount);
 			}
-			printf("--CHECKING DISCARD FUNCTION--\n");
-	
-		//the smityh function discards the card without using the trash flag, so we expect the last played card, at the index of the last cardcount in smithyTest's playedCards array, to match the 
-		//card at the previous handposition put in
-			if (smithyTest->playedCards[smithyTest->playedCardCount-1]==save->hand[rp][handpos])
-               		 {
-				printf("SUCCESS: last played card matches saved hand in position %i: the %i the played card is  %i whcih matches the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
+			printf("--Step 3: Checking that correct hard is discarded. --\n");
+			if (smithyTest->playedCards[save->playedCardCount]==save->hand[rp][handpos])
+             {
+				printf("SUCCESS: last played card matches saved hand in position %i: the %ith played card is %i which matches the card formerly in the player hand, %i\n", handpos, save->playedCardCount, smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
 			}
 			else
-              		{
-			
-				printf("FAILURE; last played card DOES NOT  match saved hand in position %i: the %i the played card is  %i which does NOT match the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
+            {
+				printf("FAILURE; last played card DOES NOT match saved hand in position %i: the %ith played card is %i which does NOT match the card formerly in the player hand, %i\n", handpos, save->playedCardCount,  smithyTest->playedCards[save->playedCardCount], save->hand[rp][handpos]);
 			}
-			printf("---TEST CASE %i finished, resetting game state to original--- \n", randomCounter);
-			*smithyTest=*blankSave;
+			printf("---inner loop random %i finished---\n", i);
+			*smithyTest=*outerSave;
 		}	
-		printf("\n\n\n----FINISHED ALL %i  TESTS---\n", numRandCounter);
-	
 		printf("\n\n\n-----finish random test number %i-----\n\n\n", j); 
 	}	
 	printf("Ending random generation of players\n");
 	
 	return 0;
 }	
+
