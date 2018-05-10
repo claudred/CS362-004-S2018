@@ -43,6 +43,17 @@ int main(int argc, char *argv[])
 	int handcountFailures=0;
 	int discardSuccesses=0;
 	int discardFailures=0;
+	int deckSuccesses=0;
+	int deckFailures=0;
+	
+	int totalHandcountFailures=0;
+	int totalHandcountSuccesses=0;
+	int totalDeckFailures=0;
+	int totalDeckSuccesses=0;
+	int totalDiscardFailures=0;
+	int totalDiscardSuccesses=0;
+	int failMeFlag=0;
+	int failMeFlag2=0;
 	while ((x<numTests)||(zeroPlayers==0)||(fivePlayers==0)||(onePlayers==0))
 	{
 		//reset success and failure count for this loop
@@ -50,6 +61,8 @@ int main(int argc, char *argv[])
 		failures=0;
 		handcountSuccesses=0;
 		handcountFailures=0;
+		deckFailures=0;
+		deckSuccesses=0;
 		discardSuccesses=0;
 		discardFailures=0;
 		x++;//increment x closer to numTests
@@ -97,7 +110,13 @@ int main(int argc, char *argv[])
 			printPlayerDeck(rp, testAdventurer);
 			printf("Players %i's hand before\n", rp);
 			printPlayerHand(rp, testAdventurer);
+			if (failMeFlag==1)
+			{
+				testAdventurer->whoseTurn=rand() % numPlayers;
+			}
+
 			ret_val=cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+			
 			//HOW TO REACH THIS STATE?
 			/*if (ret_val==-1)	
 			{
@@ -109,27 +128,39 @@ int main(int argc, char *argv[])
 				if (save->handCount[rp]+2==testAdventurer->handCount[rp])
 				{
 					printf("SUCCESS: correct number of items incremented from the count\n");		
+					handcountSuccesses++;
+					totalHandcountSuccesses++;
+					
 					successes++;
 				}
-				/*else 
+				else 
 				{
 					printf("FAILURE: incorrect number of items incremented from the count\n");
 					failures++;
-				}*/
+					totalHandcountFailures++;
+					handcountFailures++;
+				}
+
+				printf("# # # # HANDCOUNT REPORT: %i successes, %i failures # # # #\n", handcountSuccesses, handcountFailures);
+				printf("# # # # UPDATED TOTAL HANDCOUNT REPORT: %i total failures, %i total successes\n", totalHandcountFailures, totalHandcountSuccesses);
+
 				printf("Checking player deck count\n");
 				if (save->deckCount[rp]-2==testAdventurer->deckCount[rp])
 				{
 					printf("SUCCESS: correct number of treasure cards mined\n");
 					successes++;
+					deckSuccesses++;
+					totalDeckSuccesses++;	
 				}
-				/*else 
+				else 
 				{
 					printf("FAILURE: incorrect number of treasure cards mined\n");
 					failures++;
-				}*/
-				handcountFailures=failures;
-				handcountSuccesses=successes;
-				printf("# # # # HANDCOUNT REPORT: %i successes, %i failures # # # #\n", handcountSuccesses, handcountFailures);
+					deckFailures++;
+					totalDeckFailures++;
+				}
+				printf("# # # # DECK COUNT REPORT: %i successes, %i failures # # # #\n", deckSuccesses, deckFailures);
+				printf("# # # # UPDATED TOTAL DECK REPORT: %i total failures, %i total successes\n", totalDeckFailures, totalDeckSuccesses);	
 				printf("Player's %i hand count after: %i\n", rp, testAdventurer->handCount[rp]);
 				printf ("Player %i's deck after\n", rp);
 				printPlayerDeck(rp, testAdventurer);
@@ -149,44 +180,85 @@ int main(int argc, char *argv[])
 				printf("Discard count before call %i\n", testAdventurer->discardCount[rp]);
 				printf("Testing card effect with only curse cards in deck; expecting discard count to increment by5\n");
 				cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+				if (failMeFlag2==1)
+				{
+					testAdventurer->discardCount[rp]=rand() % 10;
+				}
 				printf("Player %i deck before\n", rp);
 				printPlayerDeck(rp, testAdventurer);
 				printf("Player %i hand before\n", rp);
 				printPlayerHand(rp, testAdventurer);
+				
 				if (save->discardCount[rp]+5==testAdventurer->discardCount[rp])
 				{
 					printf("SUCCESS: discard count is %i\n", testAdventurer->discardCount[rp]);
+					discardSuccesses++;
+					totalDiscardSuccesses++;
 					successes++;
 				}
-				//failure state neber reached, get rid of it
-				/*else 
+				else 
 				{
 					printf("FAILURE: discard count is %i\n", testAdventurer->discardCount[rp]);
+					discardFailures++;
+					totalDiscardFailures++;
 					failures++;
-				}*/
+				}
 				printf("DISCARD DECK AFTER\n");
 				printDiscard(rp, testAdventurer);
-				discardSuccesses=successes-handcountSuccesses;
-				discardFailures=failures-handcountFailures;
 				printf("# # # # DISCARD REPORT: %i successes, %i failures # # # #\n", discardSuccesses, discardFailures);
+				printf("# # # # UPDATED TOTAL Discard REPORT: %i total failures, %i total successes\n", totalDiscardFailures, totalDiscardSuccesses);
+
 				printf("\n\n# # # #  FINISHED TEST CASE 2 FOR TEST %i: No Treasure in deck # # # #\n\n", testCounter);
 				printf("# # # # TOTAL REPORT %i successes, %i failures # # # #\n", successes, failures);
-				
+			
 			}
+			
+		}
+		if (x==numTests)
+		{
+			if ((totalHandcountFailures==0)||(totalDeckFailures==0)||(totalDiscardFailures==0))
+			{
+				printf("Missing failures; restart with fail me flag\n");
+				
+				printf("handcountfailures in total: %i\ndeckfailures in total: %i\ndiscardfailures in total: %i\n", totalHandcountFailures, totalDeckFailures, totalDiscardFailures);
+				//set flag to start fail state
 
+				if (totalDiscardFailures==0)
+				{
+					failMeFlag2=1;
+				}
+				failMeFlag=1;
+				x--;
+			}
 		}
 		printf("\n\n $ # $ # FINISHED TEST %i FOR RANDOM NUMBER OF PLAYERS TEST $ # $ #\n\n", testCounter);
-		
+	
 	}
+	
+	
 	printf("# # # # Finished randomize numPlayers test # # # #\n");
 	printf("# # # # REPORT: Ran test %i times # # # #\n", testCounter);
 	printf("# # # # REPORT: Reached fail states %i times # # # #\n", PLAYERS_RANGE_FAIL_COUNT);
 	printf("# # # # REPORT: Reached success states %i times # # # #\n", PLAYERS_RANGE_PASS_COUNT);
+	printf("\n\n----FINISHED ALL RANDOM TESTS FOR ADVENTURER CARD----\n\n");
 	
-	numPlayers=2;
+	//reset failme flag
+	failMeFlag=0;
+	failMeFlag2=0;
+	//reset total failures;
+	totalHandcountFailures=0;
+	totalHandcountSuccesses=0;
+	totalDeckFailures=0;
+	totalDeckSuccesses=0;
+	totalDiscardFailures=0;
+	totalDiscardSuccesses=0;
+		
+	failures=0;
+	successes=0;
+	numPlayers=4;
 	x=0;
 	printf("Step two: generate random hand position in the range of 0 to %i\n", testAdventurer->handCount[rp]);
-	testCounter=0;
+		testCounter=0;
 	while (x<numTests)
 	{
 		x++;
@@ -202,13 +274,21 @@ int main(int argc, char *argv[])
 		failures=0;
 		handcountSuccesses=0;
 		handcountFailures=0;
+		deckFailures=0;
+		deckSuccesses=0;
 		discardSuccesses=0;
 		discardFailures=0;
 		printf("\n\n$ # $ # STARTING TEST %i FOR RANDOM NUMBER OF PLAYERS TEST $ # $ #\n\n", testCounter);
+		/*if (ret_val==-1)
+		{
+			printf("initializeGame detected something wrong, restart without running tests to prevent segfault\n");
+		}*/
 		if (ret_val!=-1)
 		{
 			
 			printf("\n\n# # # #  STARTING TEST CASE 1 FOR TEST %i: Treasure in deck # # # #\n\n", testCounter);
+			rp=whoseTurn(testAdventurer);
+			testAdventurer->hand[rp][handPos]=adventurer;
 			struct gameState *save=newGame();
 			*save=*testAdventurer;
 			printf("PLAYER: %i\n", rp);
@@ -219,7 +299,13 @@ int main(int argc, char *argv[])
 			printPlayerDeck(rp, testAdventurer);
 			printf("Players %i's hand before\n", rp);
 			printPlayerHand(rp, testAdventurer);
+			if (failMeFlag==1)
+			{
+				testAdventurer->whoseTurn=rand() % numPlayers;
+			}
+
 			ret_val=cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+			
 			//HOW TO REACH THIS STATE?
 			/*if (ret_val==-1)	
 			{
@@ -231,27 +317,39 @@ int main(int argc, char *argv[])
 				if (save->handCount[rp]+2==testAdventurer->handCount[rp])
 				{
 					printf("SUCCESS: correct number of items incremented from the count\n");		
+					handcountSuccesses++;
+					totalHandcountSuccesses++;
+					
 					successes++;
 				}
-				/*else 
+				else 
 				{
 					printf("FAILURE: incorrect number of items incremented from the count\n");
 					failures++;
-				}*/
+					totalHandcountFailures++;
+					handcountFailures++;
+				}
+
+				printf("# # # # HANDCOUNT REPORT: %i successes, %i failures # # # #\n", handcountSuccesses, handcountFailures);
+				printf("# # # # UPDATED TOTAL HANDCOUNT REPORT: %i total failures, %i total successes\n", totalHandcountFailures, totalHandcountSuccesses);
+
 				printf("Checking player deck count\n");
 				if (save->deckCount[rp]-2==testAdventurer->deckCount[rp])
 				{
 					printf("SUCCESS: correct number of treasure cards mined\n");
 					successes++;
+					deckSuccesses++;
+					totalDeckSuccesses++;	
 				}
-				/*else 
+				else 
 				{
 					printf("FAILURE: incorrect number of treasure cards mined\n");
 					failures++;
-				}*/
-				handcountFailures=failures;
-				handcountSuccesses=successes;
-				printf("# # # # HANDCOUNT REPORT: %i successes, %i failures # # # #\n", handcountSuccesses, handcountFailures);
+					deckFailures++;
+					totalDeckFailures++;
+				}
+				printf("# # # # DECK COUNT REPORT: %i successes, %i failures # # # #\n", deckSuccesses, deckFailures);
+				printf("# # # # UPDATED TOTAL DECK REPORT: %i total failures, %i total successes\n", totalDeckFailures, totalDeckSuccesses);	
 				printf("Player's %i hand count after: %i\n", rp, testAdventurer->handCount[rp]);
 				printf ("Player %i's deck after\n", rp);
 				printPlayerDeck(rp, testAdventurer);
@@ -271,38 +369,67 @@ int main(int argc, char *argv[])
 				printf("Discard count before call %i\n", testAdventurer->discardCount[rp]);
 				printf("Testing card effect with only curse cards in deck; expecting discard count to increment by5\n");
 				cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
+				/*if (failMeFlag2==1)
+				{
+					testAdventurer->discardCount[rp]=rand() % 10;
+				}*/
 				printf("Player %i deck before\n", rp);
 				printPlayerDeck(rp, testAdventurer);
 				printf("Player %i hand before\n", rp);
 				printPlayerHand(rp, testAdventurer);
+				
 				if (save->discardCount[rp]+5==testAdventurer->discardCount[rp])
 				{
 					printf("SUCCESS: discard count is %i\n", testAdventurer->discardCount[rp]);
+					discardSuccesses++;
+					totalDiscardSuccesses++;
 					successes++;
 				}
 				else 
 				{
 					printf("FAILURE: discard count is %i\n", testAdventurer->discardCount[rp]);
+					discardFailures++;
+					totalDiscardFailures++;
 					failures++;
 				}
 				printf("DISCARD DECK AFTER\n");
 				printDiscard(rp, testAdventurer);
-				discardSuccesses=successes-handcountSuccesses;
-				discardFailures=failures-handcountFailures;
 				printf("# # # # DISCARD REPORT: %i successes, %i failures # # # #\n", discardSuccesses, discardFailures);
+				printf("# # # # UPDATED TOTAL Discard REPORT: %i total failures, %i total successes\n", totalDiscardFailures, totalDiscardSuccesses);
+
 				printf("\n\n# # # #  FINISHED TEST CASE 2 FOR TEST %i: No Treasure in deck # # # #\n\n", testCounter);
 				printf("# # # # TOTAL REPORT %i successes, %i failures # # # #\n", successes, failures);
-				
+			
 			}
-
+			
 		}
-		printf("\n\n $ # $ # FINISHED TEST %i FOR RANDOM HANDPOST TEST$ # $ #\n\n", testCounter);
-		
+		if (x==numTests)
+		{
+			if ((totalHandcountFailures==0)||(totalDeckFailures==0)||(totalDiscardFailures==0))
+			{
+				printf("Missing failures; restart with fail me flag\n");
+				
+				printf("handcountfailures in total: %i\ndeckfailures in total: %i\ndiscardfailures in total: %i\n", totalHandcountFailures, totalDeckFailures, totalDiscardFailures);
+				//set flag to start fail state
+
+				/*if (totalDiscardFailures==0)
+				{
+					failMeFlag2=1;
+				}*/
+				failMeFlag=1;
+				x--;
+			}
+		}
+		printf("\n\n $ # $ # FINISHED TEST %i FOR RANDOM HANDPOS TEST $ # $ #\n\n", testCounter);
 	
 	}
+	
+	
 	printf("# # # # Finished randomize numPlayers test # # # #\n");
 	printf("# # # # REPORT: Ran test %i times # # # #\n", testCounter);
 	printf("\n\n----FINISHED ALL RANDOM TESTS FOR ADVENTURER CARD----\n\n");
+
+
 	return 0;
 
 }
