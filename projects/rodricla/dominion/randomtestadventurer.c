@@ -8,9 +8,10 @@
 #include "test_helpers.h"
 int main(int argc, char *argv[]) 
 {
+	//an introduction
 	printf("\n\n----STARTING RANDOM TESTS FOR ADVENTURER CARD----\n\n");
 	printf("----Welcome to random card tests with adventurer----\n");
-	printf("----We will test the Adventurer card in this random test----\n");
+	printf("----We will test the Adventurer card using some random tests----\n");
 	printf("----Adventurer is an Action card from the Base Set----\n");
 	printf("-----It is a terminal Action card that digs for Treasure cards in the deck-----\n");
 	printf("----If there is treasure in the players deck it should draw it-----\n");
@@ -54,11 +55,17 @@ int main(int argc, char *argv[])
 	int totalDiscardSuccesses=0;
 	int failMeFlag=0;
 	int failMeFlag2=0;
+	
+	int testSet1Failures=0;
+	int testSet2Failures=0;
+	
+	int testSet1Successes=0;
+	int testSet2Successes=0;
+	
 	while ((x<numTests)||(zeroPlayers==0)||(fivePlayers==0)||(onePlayers==0))
 	{
 		//reset success and failure count for this loop
-		successes=0;
-		failures=0;
+
 		handcountSuccesses=0;
 		handcountFailures=0;
 		deckFailures=0;
@@ -114,14 +121,7 @@ int main(int argc, char *argv[])
 			{
 				testAdventurer->whoseTurn=rand() % numPlayers;
 			}
-
 			ret_val=cardEffect(card, choice1, choice2, choice3, testAdventurer, handPos, &bonus);
-			
-			//HOW TO REACH THIS STATE?
-			/*if (ret_val==-1)	
-			{
-				printf("cardEffect detected something wrong, restart\n");
-			}*/
 			if (ret_val!=-1)
 			{
 				printf("Player's hand count after: %i\n", testAdventurer->handCount[rp]);
@@ -222,7 +222,6 @@ int main(int argc, char *argv[])
 				
 				printf("handcountfailures in total: %i\ndeckfailures in total: %i\ndiscardfailures in total: %i\n", totalHandcountFailures, totalDeckFailures, totalDiscardFailures);
 				//set flag to start fail state
-
 				if (totalDiscardFailures==0)
 				{
 					failMeFlag2=1;
@@ -235,12 +234,14 @@ int main(int argc, char *argv[])
 	
 	}
 	
-	
 	printf("# # # # Finished randomize numPlayers test # # # #\n");
 	printf("# # # # REPORT: Ran test %i times # # # #\n", testCounter);
 	printf("# # # # REPORT: Reached fail states %i times # # # #\n", PLAYERS_RANGE_FAIL_COUNT);
 	printf("# # # # REPORT: Reached success states %i times # # # #\n", PLAYERS_RANGE_PASS_COUNT);
 	printf("\n\n----FINISHED ALL RANDOM TESTS FOR ADVENTURER CARD----\n\n");
+	//save final set of successes and failures
+	testSet1Failures=failures;
+	testSet1Successes=successes;
 	
 	//reset failme flag
 	failMeFlag=0;
@@ -259,6 +260,7 @@ int main(int argc, char *argv[])
 	x=0;
 	printf("Step two: generate random hand position in the range of 0 to %i\n", testAdventurer->handCount[rp]);
 		testCounter=0;
+	
 	while (x<numTests)
 	{
 		x++;
@@ -270,8 +272,7 @@ int main(int argc, char *argv[])
 		printf("Generated handpos %i\n", handPos);
 		testAdventurer->hand[rp][handPos]=adventurer;
 		//reset success and failure count for this loop
-		successes=0;
-		failures=0;
+
 		handcountSuccesses=0;
 		handcountFailures=0;
 		deckFailures=0;
@@ -410,12 +411,6 @@ int main(int argc, char *argv[])
 				printf("Missing failures; restart with fail me flag\n");
 				
 				printf("handcountfailures in total: %i\ndeckfailures in total: %i\ndiscardfailures in total: %i\n", totalHandcountFailures, totalDeckFailures, totalDiscardFailures);
-				//set flag to start fail state
-
-				/*if (totalDiscardFailures==0)
-				{
-					failMeFlag2=1;
-				}*/
 				failMeFlag=1;
 				x--;
 			}
@@ -423,11 +418,20 @@ int main(int argc, char *argv[])
 		printf("\n\n $ # $ # FINISHED TEST %i FOR RANDOM HANDPOS TEST $ # $ #\n\n", testCounter);
 	
 	}
-	
+	//save final set of successes and failures
+	testSet2Failures=failures;
+	testSet2Successes=successes;
 	
 	printf("# # # # Finished randomize numPlayers test # # # #\n");
 	printf("# # # # REPORT: Ran test %i times # # # #\n", testCounter);
 	printf("\n\n----FINISHED ALL RANDOM TESTS FOR ADVENTURER CARD----\n\n");
+	printf("^^^^^^^^^^^^ FINAL REPORT ^^^^^^^^^^^\n");
+	printf("Test Set 1 (random player number) successes: %i\n", testSet1Successes);
+	printf("Test Set 1 (random player number) failures: %i\n", testSet1Failures);
+	
+	printf("Test Set 2 (random hand pos) successes: %i\n", testSet2Successes);
+	printf("Test Set 2 (random hand pos) failures: %i\n", testSet2Failures);
+	
 
 
 	return 0;
