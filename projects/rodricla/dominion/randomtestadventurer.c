@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 	
 	int testSet1Successes=0;
 	int testSet2Successes=0;
-	
+	//latests	
 	while ((x<numTests)||(zeroPlayers==0)||(fivePlayers==0)||(onePlayers==0))
 	{
 		//reset success and failure count for this loop
