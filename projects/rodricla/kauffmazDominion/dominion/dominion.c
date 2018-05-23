@@ -5,6 +5,122 @@
 #include <math.h>
 #include <stdlib.h>
 
+void testSmithy(int player, struct gameState *argState, int argHandPos)
+{
+  //+3 Cards  //BUG: PLAYER WILL NOW DRAW 4 CARDS
+  int i = 0;
+//  for (i = 0; i < 4; i++)
+  for (i=0; i < 3; i++)
+  {
+    drawCard(player, argState);
+  }
+
+  //discard card from hand
+  discardCard(argHandPos, player, argState, 0);
+}
+
+void testAdventurer(int player, struct gameState *argState)
+{
+  int cardDrawn;
+  int drawntreasure = 0;
+  int temphand[MAX_HAND];
+  int z = 0;
+  //BUG: PLAYER WILL DRAW 3 TREASURES INSTEAD OF 2
+  while (drawntreasure < 3)
+  {
+    if (argState->deckCount[player] < 1)
+    { //if the deck is empty we need to shuffle discard and add to deck
+      shuffle(player, argState);
+    }
+    drawCard(player, argState);
+    cardDrawn = argState->hand[player][argState->handCount[player] - 1]; //top card of hand is most recently drawn card.
+    if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+      drawntreasure++;
+    else
+    {
+      temphand[z] = cardDrawn;
+      argState->handCount[player]--; //this should just remove the top card (the most recently drawn one).
+      z++;
+    }
+  }
+  while (z - 1 >= 0)
+  {
+    argState->discard[player][argState->discardCount[player]++] = temphand[z - 1]; // discard all cards in play that have been drawn
+    z = z - 1;
+  }
+}
+
+void testCutpurse(int player, struct gameState *argState, int handPos)
+{
+  int i, k, j;
+  updateCoins(player, argState, 2);
+  for (i = 0; i < argState->numPlayers; i++)
+  {
+    if (i != player)
+    {
+      for (j = 0; j < argState->handCount[i]; j++)
+      {
+        if (argState->hand[i][j] == copper)
+        {
+          discardCard(j, i, argState, 0);
+          break;
+        }
+        if (j == argState->handCount[i])
+        {
+          for (k = 0; k < argState->handCount[i]; k++)
+          {
+            if (DEBUG)
+              printf("Player %d reveals card number %d\n", i, argState->hand[i][k]);
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  //discard played card from hand
+  discardCard(handPos, player, argState, 0);
+}
+
+void testCouncilRoom(int player, struct gameState *argState, int handPos)
+{
+  //+4 Cards
+  int i, j;
+  for (i = 0; i < 4; i++)
+  {
+    drawCard(player, argState);
+  }
+
+  //+1 Buy
+  argState->numBuys++;
+
+  //Each other player draws a card  BUG: EACH OTHER PLAYER DRAWS 2 CARDS
+  for (i = 0; i < argState->numPlayers; i++)
+  {
+    if (i != player)
+    {
+      for (j = 0; j < 2; j++)
+      {
+        drawCard(i, argState);
+      }
+    }
+  }
+
+  //put played card in played card pile
+  discardCard(handPos, player, argState, 0);
+}
+
+void testGreatHall(int player, struct gameState *argState, int handPos)
+{
+  //+1 Card
+  drawCard(player, argState);
+
+  //+1 Actions  BUG: PLAYER WILL RECIEVE 2 ACTIONS
+  argState->numActions += 2;
+
+  //discard card from hand
+  discardCard(handPos, player, argState, 0);
+}
 int compare(const void *a, const void *b)
 {
   if (*(int *)a > *(int *)b)
@@ -743,7 +859,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 {
   int i;
   int j;
-  int k;
+  //int k;
   int x;
   int index;
   int currentPlayer = whoseTurn(state);
@@ -751,9 +867,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
   int tributeRevealedCards[2] = {-1, -1};
   int temphand[MAX_HAND]; // moved above the if statement
-  int drawntreasure = 0;
-  int cardDrawn;
-  int z = 0; // this is the counter for the temp hand
+  //int drawntreasure = 0;
+  //int cardDrawn;
+//  int z = 0; // this is the counter for the temp hand
   if (nextPlayer > (state->numPlayers - 1))
   {
     nextPlayer = 0;
@@ -1377,119 +1493,4 @@ int updateCoins(int player, struct gameState *state, int bonus)
   return 0;
 }
 
-void testSmithy(int player, struct gameState *argState, int argHandPos)
-{
-  //+3 Cards
-  int i = 0;
-  for (i = 0; i < 4; i++)
-  {
-    drawCard(player, argState);
-  }
-
-  //discard card from hand
-  discardCard(argHandPos, player, argState, 0);
-}
-
-void testAdventurer(int player, struct gameState *argState)
-{
-  int cardDrawn;
-  int drawntreasure = 0;
-  int temphand[MAX_HAND];
-  int z = 0;
-  while (drawntreasure < 2)
-  {
-    if (argState->deckCount[player] < 1)
-    { //if the deck is empty we need to shuffle discard and add to deck
-      shuffle(player, argState);
-    }
-    drawCard(player, argState);
-    cardDrawn = argState->hand[player][argState->handCount[player] - 1]; //top card of hand is most recently drawn card.
-    if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-      drawntreasure++;
-    else
-    {
-      temphand[z] = cardDrawn;
-      argState->handCount[player]--; //this should just remove the top card (the most recently drawn one).
-      z++;
-    }
-  }
-  while (z - 1 >= 0)
-  {
-    argState->discard[player][argState->discardCount[player]++] = temphand[z - 1]; // discard all cards in play that have been drawn
-    z = z - 1;
-  }
-}
-
-void testCutpurse(int player, struct gameState *argState, int handPos)
-{
-  printf("testing cutpurse");
-  int i, k, j;
-  updateCoins(player, argState, 2);
-  for (i = 0; i < argState->numPlayers; i++)
-  {
-    if (i != player)
-    {
-      for (j = 0; j < argState->handCount[i]; j++)
-      {
-        if (argState->hand[i][j] == copper)
-        {
-          discardCard(j, i, argState, 0);
-          break;
-        }
-        if (j == argState->handCount[i])
-        {
-          for (k = 0; k < argState->handCount[i]; k++)
-          {
-            if (DEBUG)
-              printf("Player %d reveals card number %d\n", i, argState->hand[i][k]);
-          }
-          break;
-        }
-      }
-    }
-  }
-
-  //discard played card from hand
-  discardCard(handPos, player, argState, 0);
-}
-
-void testCouncilRoom(int player, struct gameState *argState, int handPos)
-{
-  //+4 Cards
-  int i, j;
-  for (i = 0; i < 4; i++)
-  {
-    drawCard(player, argState);
-  }
-
-  //+1 Buy
-  argState->numBuys++;
-
-  //Each other player draws a card
-  for (i = 0; i < argState->numPlayers; i++)
-  {
-    if (i != player)
-    {
-      for (j = 0; j < 2; j++)
-      {
-        drawCard(i, argState);
-      }
-    }
-  }
-
-  //put played card in played card pile
-  discardCard(handPos, player, argState, 0);
-}
-
-void testGreatHall(int player, struct gameState *argState, int handPos)
-{
-  //+1 Card
-  drawCard(player, argState);
-
-  //+1 Actions
-  argState->numActions += 2;
-
-  //discard card from hand
-  discardCard(handPos, player, argState, 0);
-}
 // //end of dominion.c
