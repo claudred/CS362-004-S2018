@@ -26,8 +26,9 @@ void testAdventurer(int player, struct gameState *argState)
   int temphand[MAX_HAND];
   int z = 0;
   //BUG: PLAYER WILL DRAW 3 TREASURES INSTEAD OF 2
-  while (drawntreasure < 3)
-  {
+  //while (drawntreasure < 3)
+while (drawntreasure<2)  
+{
     if (argState->deckCount[player] < 1)
     { //if the deck is empty we need to shuffle discard and add to deck
       shuffle(player, argState);
