@@ -55,56 +55,75 @@ public class UrlValidatorTest extends TestCase
 	 
 	public void testManualTest()
 	{
-		 
-		System.out.println("Starting Manual Tests");
-		
+		 System.out.println("Starting Manual Tests");
+		 System.out.println("Testing with manually created scheme of 'http' and 'https'");
 		 
 		 String[] schemes = {"http","https"};
 	     UrlValidator urlValidator = new UrlValidator(schemes);
 	     boolean valueOf=urlValidator.isValid("http://www.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.log");
+	     System.out.println("testing if 'http://www.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.logoworks.comwww.log' is valid:");
 	     System.out.println(valueOf);
+	       
 	     valueOf=urlValidator.isValid(" ");
+	     System.out.println("testing if ' ' is valid:"); 
 	     System.out.println(valueOf);
+	     
+	     System.out.println("testing if 'ftp://www.logoworks.com' is valid:");   
 	     valueOf=urlValidator.isValid("ftp://www.logoworks.com");
 	     System.out.println(valueOf);
+	     
 	     valueOf=urlValidator.isValid("abcdefg");
+	     System.out.println("testing if 'abcdefg' is valid:");   
 	     System.out.println(valueOf);
+	     
 	     valueOf=urlValidator.isValid("%%%%%%");
+	     System.out.println("testing if '%%%%%%' is valid:");  
 	     System.out.println(valueOf);
+	     
+	     valueOf=urlValidator.isValid("http://www.good.com");
+	     System.out.println("testing if 'http://www.good.com' is valid:");  
+	     System.out.println(valueOf);
+	     
+	     valueOf=urlValidator.isValid("https://www.good.com");
+	     System.out.println("testing if 'https://www.good.com' is valid:");  
+	     System.out.println(valueOf);
+	     
 	     String[] schemes2 = {"http2","https2"};
+	     System.out.println("Testing with manually created scheme of 'http2' and 'https2'");
 	     UrlValidator urlValidator2 = new UrlValidator(schemes2);
-	     valueOf=urlValidator2.isValid("http://ww.logoworks");
+	     
+	     valueOf=urlValidator2.isValid("http2://www.good.com");
+	     System.out.println("testing if 'http2://www.good.com' is valid:");  
 	     System.out.println(valueOf);
-	     valueOf=urlValidator2.isValid("http2://www.logoworks.com");
+	     
+	     valueOf=urlValidator2.isValid("https2://www.good.com");
+	     System.out.println("testing if 'https2://www.good.com' is valid:");  
 	     System.out.println(valueOf);
+	     
+	     
 	     valueOf=urlValidator2.isValid("~~~~~~~~~~~~~~~~~~~~~");
+	     System.out.println("testing if '~~~~~~~~~~~~~~~~~~~~~' is valid:");  
 	     System.out.println(valueOf);
 	    
-	    
+	     System.out.println("Testing with default scheme of 'http' and 'https'");
 	     UrlValidator urlValidator4 = new UrlValidator();
+	     
 	     valueOf=urlValidator4.isValid("http://www.logoworks.com");
+	     System.out.println("testing if 'http://www.logoworks.com' is valid:"); 
 	     System.out.println(valueOf);
 	     
 	     valueOf=urlValidator4.isValidScheme("http");
+	     System.out.println("testing if 'http' is a valid scheme"); 
 	     System.out.println(valueOf);
 	     
 	     valueOf=urlValidator4.isValidScheme("HTTP");
+	     System.out.println("testing if 'HTTP' is a valid scheme");
 	     System.out.println(valueOf);
 	     
 	     valueOf=urlValidator4.isValidScheme(null);
+	     System.out.println("testing if null is a valid scheme");
 	     System.out.println(valueOf);
 	     
-	     System.out.println("Testing with Default Schemes");
-		   UrlValidator validate = new UrlValidator();
-		   
-		   UrlCheck[] sampleUrls = {
-				   new UrlCheck (validate, "http://www.google.com", true),
-				   new UrlCheck (validate, "http://www.oregonstate.edu", true),
-				   new UrlCheck (validate, "http://www.yahoo.com", true),
-				   new UrlCheck (validate, "https:google.com", true)
-				   
-		   };
-		  processUrls(sampleUrls);
 	 }
 	public void testYourFirstPartition()   
 	{
@@ -476,7 +495,32 @@ public class UrlValidatorTest extends TestCase
 	//You need to create more test cases for your Partitions if you need to 
 	public void testIsValid()
 	{
-		System.out.println("Starting Programming Based Tests"); 
+		System.out.println("Starting Programming Based Tests using a UrlCheck function"); 
+		System.out.println("Testing with Default Schemes");
+		UrlValidator validate = new UrlValidator();
+		   
+		   UrlCheck[] sampleUrls = {
+				   new UrlCheck (validate, "http://www.google.com", true),
+				   new UrlCheck (validate, "http://www.oregonstate.edu", true),
+				   new UrlCheck (validate, "http://www.yahoo.com", true),
+				   new UrlCheck (validate, "https:google.com", true),
+				   new UrlCheck (validate, "http", false),
+				   new UrlCheck (validate, "https:", false),
+				   new UrlCheck (validate, "http!!!//www.google.com:", false),
+				   new UrlCheck (validate, "http://www.bunny.com/~bunny", true),
+				   new UrlCheck (validate, "http://www.bunny.com/bunny~", true),
+				   new UrlCheck (validate, "http://www.bunny.com~/bunny", false),
+				   new UrlCheck (validate, "http://www.bunny.com/bunny", true),
+				   new UrlCheck (validate, "https", false),
+				   new UrlCheck (validate, "http:", false),
+				   new UrlCheck (validate, "https!!!//www.google.com:", false),
+				   new UrlCheck (validate, "https://www.bunny.com/~bunny", true),
+				   new UrlCheck (validate, "https://www.bunny.com/bunny~", true),
+				   new UrlCheck (validate, "https://www.bunny.com~/bunny", false),
+				   new UrlCheck (validate, "https://www.bunny.com/bunny", true),
+				   
+		   };
+		  processUrls(sampleUrls);
 		
 		//You can use this function for programming based testing
 	}
