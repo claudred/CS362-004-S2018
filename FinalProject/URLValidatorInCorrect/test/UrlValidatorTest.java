@@ -164,7 +164,35 @@ public class UrlValidatorTest extends TestCase
 		int testCount=0;
 		int passCount=0;
 		int failCount=0;
-		String[] passSet= {"A~", "B~", "C~", "D~", "E~", "F~", "G~", "H~", "I~", "J~", "K~", "L~", "M~", "N~", "O~", "P~", "Q~", "R~", "S~", "T~", "U~", "V~", "W~", "X~", "Y~", "Z~", "a~", "b~", "c~", "d~", "e~", "f~", "g~", "h~", "i~", "j~", "k~", "l~", "m~", "n~", "o~", "p~", "q~", "r~", "s~", "t~", "u~", "v~", "w~", "x~", "y~", "z~", "0~", "1~", "2~", "3~", "4~", "5~", "6~", "7~", "8~", "9~", "-~", ".~", "_~", "~~", ":~", "?~", "@~", "!~", "$~", "&~", "'~", "(~", ")~", "*~", "+~", ",~", ";~", "=~", "."};
+		String[] passSet= {"A~", "B~", "C~", "D~", "E~", "F~", "G~", "H~", "I~", "J~", "K~", "L~", "M~", "N~", "O~", "P~", "Q~", "R~", "S~", "T~", "U~", "V~", "W~", "X~", "Y~", "Z~", "a~", "b~", "c~", "d~", "e~", "f~", "g~", "h~", "i~", "j~", "k~", "l~", "m~", "n~", "o~", "p~", "q~", "r~", "s~", "t~", "u~", "v~", "w~", "x~", "y~", "z~", "0~", "1~", "2~", "3~", "4~", "5~", "6~", "7~", "8~", "9~", "-~", ".~", "_~", "~~", ":~", "?~", "@~", "!~", "$~", "&~", "'~", "(~", ")~", "*~", "+~", ",~", ";~", "=~", ".~"};
+		for (int index=0; index < passSet.length; index++)
+		{
+			String newPath="/" + passSet[index];
+			pathTestVal=pathTest.isValidPath(newPath) ;
+			if (pathTestVal)
+			{
+				passCount++;
+			}
+			else
+			{
+				failCount++;
+				System.out.println("incorrectly rejected " + newPath);
+				
+			}
+			testCount++;
+			 
+		}	
+		System.out.println(passCount + " out of " + testCount + " correctly passed, " + failCount + " incorrectly failed.");
+	}
+	public void testTildeRegexTwo()
+	{
+		System.out.println("Continuing regex tests: tilde tests 2");
+		UrlValidator pathTest = new UrlValidator();
+		boolean pathTestVal;
+		int testCount=0;
+		int passCount=0;
+		int failCount=0;
+		String[] passSet= {"A~A", "B~A", "C~A", "D~A", "E~A", "F~A", "G~A", "H~A", "I~A", "J~A", "K~A", "L~A", "M~A", "N~A", "O~A", "P~A", "Q~A", "R~A", "S~A", "T~A", "U~A", "V~A", "W~A", "X~A", "Y~A", "Z~A", "a~A", "b~A", "c~A", "d~A", "e~A", "f~A", "g~A", "h~A", "i~A", "j~A", "k~A", "l~A", "m~A", "n~A", "o~A", "p~A", "q~A", "r~A", "s~A", "t~A", "u~A", "v~A", "w~A", "x~A", "y~A", "z~A", "0~A", "1~A", "2~A", "3~A", "4~A", "5~A", "6~A", "7~A", "8~A", "9~A", "-~A", ".~A", "_~A", "~A~A", ":~A", "?~A", "@~A", "!~A", "$~A", "&~A", "'~A", "(~A", ")~A", "*~A", "+~A",",~A", ";~A", "=~A", ".~A"};
 		for (int index=0; index < passSet.length; index++)
 		{
 			String newPath="/" + passSet[index];
