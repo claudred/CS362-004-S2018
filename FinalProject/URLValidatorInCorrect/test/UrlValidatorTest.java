@@ -695,7 +695,7 @@ public class UrlValidatorTest extends TestCase
 					}	
 					else
 					{
-						System.out.println(newAuth+ "was incorrectly rejected" + valueOf);
+						System.out.println(newAuth+ " was incorrectly rejected: " + valueOf);
 					}
 					testCounter++;
 					
