@@ -128,6 +128,64 @@ public class UrlValidatorTest extends TestCase
 	     System.out.println(valueOf);
 	     
 	 }
+	public void testRegexExpectedSuccess()
+	{
+		System.out.println("Starting Regex Tests: basic test 1");
+		UrlValidator pathTest = new UrlValidator();
+		boolean pathTestVal;
+		int testCount=0;
+		int passCount=0;
+		int failCount=0;
+		String[] passSet= {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-", ".", "_", "~", ":", "?", "@", "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "=", "."};
+		for (int index=0; index < passSet.length; index++)
+		{
+			String newPath="/" + passSet[index];
+			pathTestVal=pathTest.isValidPath(newPath) ;
+			if (pathTestVal)
+			{
+				passCount++;
+			}
+			else
+			{
+				failCount++;
+				System.out.println("incorrectly rejected " + newPath);
+				
+			}
+			testCount++;
+			 
+		}	
+		System.out.println(passCount + " out of " + testCount + " correctly passed, " + failCount + " incorrectly failed.");
+	}
+	public void testTildeRegex()
+	{
+		System.out.println("Continuing regex tests: tilde tests");
+		UrlValidator pathTest = new UrlValidator();
+		boolean pathTestVal;
+		int testCount=0;
+		int passCount=0;
+		int failCount=0;
+		String[] passSet= {"A~", "B~", "C~", "D~", "E~", "F~", "G~", "H~", "I~", "J~", "K~", "L~", "M~", "N~", "O~", "P~", "Q~", "R~", "S~", "T~", "U~", "V~", "W~", "X~", "Y~", "Z~", "a~", "b~", "c~", "d~", "e~", "f~", "g~", "h~", "i~", "j~", "k~", "l~", "m~", "n~", "o~", "p~", "q~", "r~", "s~", "t~", "u~", "v~", "w~", "x~", "y~", "z~", "0~", "1~", "2~", "3~", "4~", "5~", "6~", "7~", "8~", "9~", "-~", ".~", "_~", "~~", ":~", "?~", "@~", "!~", "$~", "&~", "'~", "(~", ")~", "*~", "+~", ",~", ";~", "=~", "."};
+		for (int index=0; index < passSet.length; index++)
+		{
+			String newPath="/" + passSet[index];
+			pathTestVal=pathTest.isValidPath(newPath) ;
+			if (pathTestVal)
+			{
+				passCount++;
+			}
+			else
+			{
+				failCount++;
+				System.out.println("incorrectly rejected " + newPath);
+				
+			}
+			testCount++;
+			 
+		}	
+		System.out.println(passCount + " out of " + testCount + " correctly passed, " + failCount + " incorrectly failed.");
+	}
+	
+	
 	public void testYourFirstPartition()   
 	{
 		System.out.println("Starting First Partition Tests: Regex expected to fail");
@@ -556,7 +614,7 @@ public class UrlValidatorTest extends TestCase
 	    
 	    System.out.println( correctCount +" out of " + numTests+ " tests correctly rejected");
 	}
-	public void testBigStringsExpectFailure()
+	/*public void testBigStringsExpectFailure()
 	{
 		System.out.println("Starting Scheme Large Wrong String Partition Tests: expect all fail else note"); 
 		String[] schemes = {"a b c d e f g h i j k l m n o p q r s t u v w x y z", "0123456789", "!@#$%^&*()_+=-{}|:><.,", "A12B3C4D3F5G6"};
@@ -582,7 +640,7 @@ public class UrlValidatorTest extends TestCase
 		 System.out.println( correctCount +" out of " + numTests+ " tests correctly rejected");		 
 		 
 		 
-	}
+	}*/
 	/*
 	public void testYourFifthPartition()
 	{
@@ -670,7 +728,7 @@ public class UrlValidatorTest extends TestCase
 		//String[] testUs= {"a.b.com", "pla"}
 		
 	}*/
-	public void testAuthority()
+	/*public void testAuthority()
 	{
 		UrlValidator urlValidator = new UrlValidator();
 		String[] topPart= {"a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
@@ -704,8 +762,8 @@ public class UrlValidatorTest extends TestCase
 			}
 		}	
 		System.out.println( correctCounter +" out of " + testCounter+ " tests correctly passed");	
-	}
-	public void testAuthorityInvalid()
+	}*/
+	/*public void testAuthorityInvalid()
 	{
 		UrlValidator urlValidator = new UrlValidator();
 		String[] topPart= {"a","b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
@@ -738,7 +796,7 @@ public class UrlValidatorTest extends TestCase
 			}
 		}	
 		System.out.println( correctCounter +" out of " + testCounter+ " tests correctly passed");	
-	}
+	}*/
 	
 	//You need to create more test cases for your Partitions if you need to 
 	public void testIsValid()
