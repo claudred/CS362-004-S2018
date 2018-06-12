@@ -110,6 +110,37 @@ public class UrlValidatorTest extends TestCase
 	     System.out.println("testing if null is a valid scheme");
 	     System.out.println(valueOf);
 	     
+	     UrlValidator allSchemesAllowed = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+         System.out.println("testing with ALLOW_ALL_SCHEMES");
+         try {
+             valueOf = allSchemesAllowed.isValid("http://google.com");
+             System.out.println("testing if http://google.com is valid");
+             System.out.println(valueOf);
+         } catch (Throwable err) {
+                   System.out.println("ERROR with 'http://google.com'" + err.getMessage());
+               }
+         try {
+             valueOf = allSchemesAllowed.isValid("https://google.com");
+             System.out.println("testing if https://google.com is valid");
+             System.out.println(valueOf);
+         } catch (Throwable err) {
+                   System.out.println("ERROR with 'https://google.com' " + err.getMessage());
+               }
+         try {
+             valueOf = allSchemesAllowed.isValid("ftp://google.com");
+             System.out.println("testing if ftp://google.com is valid");
+             System.out.println(valueOf);
+         } catch (Throwable err) {
+                   System.out.println("ERROR with 'ftp://google.com' " + err.getMessage());
+               }
+         try {
+             valueOf = allSchemesAllowed.isValid("http://:80/test1");
+             System.out.println("testing if http://:80/test1 is valid");
+             System.out.println(valueOf);
+         } catch (Throwable err) {
+                   System.out.println("ERROR with 'http://:80/test1' " + err.getMessage());
+               }
+	     
 	 }
 	public void testValidUrls()
 	{
@@ -718,6 +749,8 @@ public class UrlValidatorTest extends TestCase
 		}*/
 	
 	}
+	
+	
 	
 	public void firstTests()
 	{
