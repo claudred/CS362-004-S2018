@@ -142,6 +142,17 @@ public class UrlValidatorTest extends TestCase
                }
 	     
 	 }
+	public void testFileSpec()
+	{
+		  UrlValidator urlVal = new UrlValidator();
+		  String url = "http://";
+	      boolean result = urlVal.isValid(url);
+	      printTest(result, url);
+	      
+	      url = "file://";
+	      result = urlVal.isValid(url);
+	      printTest(result, url);
+	}
 	public void testValidUrls()
 	{
 			System.out.println("Manual Url Valid Tests");
